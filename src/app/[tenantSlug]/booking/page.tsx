@@ -31,26 +31,41 @@ export default function BookingPage({
   // Participants list
   const [participants, setParticipants] = useState<
     { fullName: string; dob: string; isMinor: boolean }[]
-  >([{ fullName: "", dob: "", isMinor: false }]);
+  >([]);
 
   useEffect(() => {
     const exp = demoStore.experiences.find((e) => e.id === selectedExpId) || demoStore.experiences[0];
     setExperience(exp);
+    const count = (exp.participantsCount || 1) * quantity;
+    setParticipants(Array.from({ length: count }, () => ({ fullName: "", dob: "", isMinor: false })));
   }, [selectedExpId]);
+
+  const handleSelectExperience = (exp: DemoExperience) => {
+    setExperience(exp);
+    const count = (exp.participantsCount || 1) * quantity;
+    setParticipants((prev) => {
+      const next = [];
+      for (let i = 0; i < count; i++) {
+        next.push(prev[i] || { fullName: "", dob: "", isMinor: false });
+      }
+      return next;
+    });
+  };
 
   // Update participant list size when quantity changes
   const handleQuantityChange = (newQty: number) => {
     const qty = Math.max(1, Math.min(10, newQty));
     setQuantity(qty);
+    const count = (experience?.participantsCount || 1) * qty;
 
     setParticipants((prev) => {
       const next = [...prev];
-      if (qty > prev.length) {
-        for (let i = prev.length; i < qty; i++) {
+      if (count > prev.length) {
+        for (let i = prev.length; i < count; i++) {
           next.push({ fullName: "", dob: "", isMinor: false });
         }
       } else {
-        next.splice(qty);
+        next.splice(count);
       }
       return next;
     });
@@ -110,6 +125,7 @@ export default function BookingPage({
 
   const unitPrice = experience.price;
   const { subtotal, tax, total } = calculateOrderTotals({ unitPrice, quantity });
+  const totalParticipants = participants.length;
 
   return (
     <div className="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
@@ -138,68 +154,63 @@ export default function BookingPage({
           {/* Main Booking Form */}
           <div className="lg:col-span-2 space-y-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Activity Selection */}
+              {/* 1. Choose your experience */}
               <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
-                <h2 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
-                  <Sparkles className="w-5 h-5 text-orange-400" />
-                  {t("selectedActivity")}
-                </h2>
-
-                <div className="flex items-center gap-4 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
-                  <img
-                    src={experience.imageUrl}
-                    alt={experience.name}
-                    className="w-20 h-20 rounded-lg object-cover"
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-bold text-white text-base">{experience.name}</h3>
-                    <p className="text-xs text-slate-400 mt-1">{experience.durationMinutes} min • {t("officialTrack")}</p>
-                    <div className="text-orange-400 font-black text-lg mt-1">
-                      {formatCurrency(experience.price, "USD")}
-                      <span className="text-xs text-slate-400 font-normal ml-2">{t("perPerson")}</span>
-                    </div>
-                  </div>
+                <div className="mb-4">
+                  <h2 className="text-xl font-black text-white tracking-tight">
+                    {t("chooseExperienceTitle")}
+                  </h2>
+                  <p className="text-xs text-slate-400 mt-1">
+                    {t("chooseExperienceSubtitle")}
+                  </p>
                 </div>
 
-                {/* Quantity and Date */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase mb-1.5">
-                      {t("numParticipants")}
-                    </label>
-                    <div className="flex items-center border border-slate-700 rounded-xl bg-slate-950 p-1">
-                      <button
-                        type="button"
-                        onClick={() => handleQuantityChange(quantity - 1)}
-                        className="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center text-lg"
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+                  {demoStore.experiences.map((exp) => {
+                    const isSelected = experience.id === exp.id;
+                    return (
+                      <div
+                        key={exp.id}
+                        onClick={() => handleSelectExperience(exp)}
+                        className={`p-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col justify-between select-none ${
+                          isSelected
+                            ? "border-orange-500 bg-orange-500/10 shadow-lg shadow-orange-500/15 ring-2 ring-orange-500/20"
+                            : "border-slate-800 bg-slate-950/80 hover:border-slate-700 hover:bg-slate-950"
+                        }`}
                       >
-                        -
-                      </button>
-                      <span className="flex-1 text-center font-bold text-white text-lg">{quantity}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleQuantityChange(quantity + 1)}
-                        className="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center text-lg"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
+                        <div>
+                          <h3 className="font-bold text-white text-sm tracking-tight">{exp.name}</h3>
+                          <div className="text-2xl font-black text-orange-500 font-mono my-1.5">
+                            {formatCurrency(exp.price, "USD")}
+                          </div>
+                          <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-800/90 text-[11px] font-medium text-slate-300 w-fit mb-3">
+                            {exp.participantsCount} {exp.participantsCount === 1 ? t("participantBadge") : t("participantsBadge")}
+                          </div>
+                        </div>
+                        <div className="text-[11px] text-slate-400 font-medium pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                          <span>{exp.category}</span>
+                          {isSelected && <span className="text-orange-400 font-bold text-xs">✓</span>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
 
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase mb-1.5">
-                      {t("visitDate")}
-                    </label>
-                    <input
-                      type="date"
-                      value={bookingDate}
-                      onChange={(e) => setBookingDate(e.target.value)}
-                      className="w-full h-12 bg-slate-950 border border-slate-700 rounded-xl px-4 text-white text-sm focus:outline-none focus:border-orange-500"
-                      required
-                    />
-                  </div>
+                {/* Visit Date */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase mb-1.5">
+                    {t("visitDate")}
+                  </label>
+                  <input
+                    type="date"
+                    value={bookingDate}
+                    onChange={(e) => setBookingDate(e.target.value)}
+                    className="w-full h-12 bg-slate-950 border border-slate-700 rounded-xl px-4 text-white text-sm focus:outline-none focus:border-orange-500"
+                    required
+                  />
                 </div>
               </div>
+
 
 
               {/* Customer Contact */}
@@ -269,11 +280,12 @@ export default function BookingPage({
               <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
                 <h2 className="text-lg font-bold text-white flex items-center gap-2 mb-2">
                   <Users className="w-5 h-5 text-orange-400" />
-                  {t("participantsRosterTitle")} ({quantity})
+                  {t("participantsRosterTitle")} ({participants.length})
                 </h2>
                 <p className="text-xs text-slate-400 mb-4">
                   {t("participantsRosterSubtitle")}
                 </p>
+
 
                 <div className="space-y-4">
                   {participants.map((p, idx) => (
@@ -348,8 +360,9 @@ export default function BookingPage({
                 </div>
                 <div className="flex justify-between text-slate-400 text-xs">
                   <span>{t("stepParticipants")}</span>
-                  <span>x {quantity}</span>
+                  <span>{participants.length} {participants.length === 1 ? t("participantBadge") : t("participantsBadge")}</span>
                 </div>
+
                 <div className="flex justify-between text-slate-300 pt-2 border-t border-slate-800/80">
                   <span>{t("subtotalTaxBase")}</span>
                   <span className="font-mono">{formatCurrency(subtotal, "USD")}</span>

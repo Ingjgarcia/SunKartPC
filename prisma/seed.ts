@@ -92,138 +92,182 @@ async function main() {
   }
   console.log("✅ Tenant Users seeded: Business Admin, Cashier, Staff.");
 
-  // 5. Experiences / Activities Catalog
-  const expKartAdult = await prisma.experience.upsert({
-    where: { tenantId_slug: { tenantId: tenant.id, slug: "go-kart-adult" } },
-    update: {},
-    create: {
-      tenantId: tenant.id,
-      name: "Go-Kart Adult Race (Pro 270cc)",
-      slug: "go-kart-adult",
-      description: "Siente la verdadera velocidad en nuestra pista asfaltada de competición con karts de 270cc y cronometraje digital.",
-      price: 35.00,
-      currency: "USD",
+  // 5. Experiences / Activities Catalog (Exact 11 Experiences)
+  const experiencesData = [
+    {
+      name: "Go-Kart Individual",
+      slug: "go-kart-individual",
+      description: "Siente la verdadera velocidad en nuestra pista de competición con karts de 270cc y cronometraje digital.",
+      price: 10.00,
       durationMinutes: 15,
       minimumAge: 14,
       minimumHeightCm: 145,
-      capacity: 12,
+      capacity: 1,
       waiverRequired: true,
-      active: true,
+      isPackage: false,
       imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
     },
-  });
-
-  const expKartJunior = await prisma.experience.upsert({
-    where: { tenantId_slug: { tenantId: tenant.id, slug: "go-kart-junior" } },
-    update: {},
-    create: {
-      tenantId: tenant.id,
-      name: "Go-Kart Junior Race (160cc)",
-      slug: "go-kart-junior",
-      description: "Diversión segura y controlada para jóvenes corredores con karts limitados y parachoques perimetrales de seguridad.",
-      price: 25.00,
-      currency: "USD",
-      durationMinutes: 12,
-      minimumAge: 8,
-      maximumAge: 13,
-      minimumHeightCm: 125,
-      capacity: 8,
+    {
+      name: "Go-Kart Crew 5",
+      slug: "go-kart-crew-5",
+      description: "Tanda de competición para grupo de 5 corredores con cronometraje digital en pista oficial.",
+      price: 45.00,
+      durationMinutes: 15,
+      minimumAge: 14,
+      minimumHeightCm: 145,
+      capacity: 5,
       waiverRequired: true,
-      active: true,
-      imageUrl: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=800",
+      isPackage: true,
+      imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
     },
-  });
-
-  const expPaintball = await prisma.experience.upsert({
-    where: { tenantId_slug: { tenantId: tenant.id, slug: "paintball-combat" } },
-    update: {},
-    create: {
-      tenantId: tenant.id,
-      name: "Paintball Jungle Combat",
-      slug: "paintball-combat",
-      description: "Campo temático táctico al aire libre. Incluye máscara anti-empañamiento, marcador semi-automático y 200 paintballs.",
-      price: 40.00,
-      currency: "USD",
+    {
+      name: "Go-Kart Crew 10",
+      slug: "go-kart-crew-10",
+      description: "Gran Premio en pista exclusiva para 10 pilotos con tanda clasificatoria y carrera final.",
+      price: 85.00,
+      durationMinutes: 20,
+      minimumAge: 14,
+      minimumHeightCm: 145,
+      capacity: 10,
+      waiverRequired: true,
+      isPackage: true,
+      imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
+    },
+    {
+      name: "Paintball Individual",
+      slug: "paintball-individual",
+      description: "Combate táctico individual en escenario temático. Incluye marcadora semi-automática y 100 paintballs.",
+      price: 20.00,
       durationMinutes: 45,
+      minimumAge: 12,
+      capacity: 1,
+      waiverRequired: true,
+      isPackage: false,
+      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+    },
+    {
+      name: "Paintball Squad 5",
+      slug: "paintball-squad-5",
+      description: "Batalla táctica para escuadrón de 5 jugadores con 200 paintballs por persona y recarga ilimitada de CO2.",
+      price: 90.00,
+      durationMinutes: 45,
+      minimumAge: 12,
+      capacity: 5,
+      waiverRequired: true,
+      isPackage: true,
+      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+    },
+    {
+      name: "Paintball Battle 10",
+      slug: "paintball-battle-10",
+      description: "Torneo 5 vs 5 en campo temático con árbitro oficial, máscaras anti-empañamiento y 250 bolas por jugador.",
+      price: 170.00,
+      durationMinutes: 45,
+      minimumAge: 12,
+      capacity: 10,
+      waiverRequired: true,
+      isPackage: true,
+      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+    },
+    {
+      name: "Paintball Battle 20",
+      slug: "paintball-battle-20",
+      description: "Guerra táctica para eventos grupales y empresas de hasta 20 jugadores con campo completo reservado.",
+      price: 300.00,
+      durationMinutes: 60,
       minimumAge: 12,
       capacity: 20,
       waiverRequired: true,
-      active: true,
+      isPackage: true,
       imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
     },
-  });
-
-  const expZipline = await prisma.experience.upsert({
-    where: { tenantId_slug: { tenantId: tenant.id, slug: "zipline-canopy" } },
-    update: {},
-    create: {
-      tenantId: tenant.id,
-      name: "Mega Zipline Canopy Flight",
-      slug: "zipline-canopy",
-      description: "Vuela sobre las copas de los árboles con 5 líneas dobles de alta velocidad y vistas panorámicas de Punta Cana.",
-      price: 50.00,
-      currency: "USD",
-      durationMinutes: 60,
-      minimumAge: 6,
-      minimumHeightCm: 110,
-      capacity: 15,
-      waiverRequired: true,
-      active: true,
-      imageUrl: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=800",
-    },
-  });
-
-  const expSky = await prisma.experience.upsert({
-    where: { tenantId_slug: { tenantId: tenant.id, slug: "sky-adventure" } },
-    update: {},
-    create: {
-      tenantId: tenant.id,
-      name: "Sky High Ropes & Obstacles",
-      slug: "sky-adventure",
-      description: "Circuito aéreo de puentes colgantes, redes y plataformas suspendidas a 10 metros de altura.",
-      price: 30.00,
-      currency: "USD",
+    {
+      name: "Sky Adventure Individual",
+      slug: "sky-adventure-individual",
+      description: "Circuito aéreo de puentes colgantes, redes y tirolesa a 10 metros de altura con vistas panorámicas.",
+      price: 10.00,
       durationMinutes: 30,
       minimumAge: 8,
       minimumHeightCm: 120,
-      capacity: 15,
+      capacity: 1,
       waiverRequired: true,
-      active: true,
+      isPackage: false,
       imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
     },
-  });
-
-  // Combo VIP (Package containing Go-Kart Adult + Paintball + Sky Adventure)
-  const expComboVIP = await prisma.experience.upsert({
-    where: { tenantId_slug: { tenantId: tenant.id, slug: "adventure-combo-vip" } },
-    update: {},
-    create: {
-      tenantId: tenant.id,
-      name: "Adventure Combo VIP Pass",
-      slug: "adventure-combo-vip",
-      description: "¡El paquete definitivo! Incluye 1 tanda de Go-Kart Adult Pro, 1 partida de Paintball Jungle (200 bolas) y Acceso completo al Sky High Ropes.",
-      price: 89.00, // Discounted from 35+40+30 = $105
-      currency: "USD",
-      durationMinutes: 120,
-      minimumAge: 14,
-      capacity: 25,
+    {
+      name: "Sky Adventure Group 5",
+      slug: "sky-adventure-group-5",
+      description: "Desafío aéreo de cuerdas y puentes suspendidos para grupo de 5 personas con equipo de seguridad certificado.",
+      price: 45.00,
+      durationMinutes: 30,
+      minimumAge: 8,
+      minimumHeightCm: 120,
+      capacity: 5,
       waiverRequired: true,
       isPackage: true,
-      active: true,
+      imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
+    },
+    {
+      name: "Sky Adventure Group 10",
+      slug: "sky-adventure-group-10",
+      description: "Aventura aérea completa para grupos y familias de 10 personas con guía y supervisor exclusivo.",
+      price: 85.00,
+      durationMinutes: 30,
+      minimumAge: 8,
+      minimumHeightCm: 120,
+      capacity: 10,
+      waiverRequired: true,
+      isPackage: true,
+      imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
+    },
+    {
+      name: "SunKart Triple Pass",
+      slug: "sunkart-triple-pass",
+      description: "Pase todo incluido: tanda de Go-Kart Pro 270cc, partida de Paintball Combat y circuito Sky Adventure.",
+      price: 35.00,
+      durationMinutes: 90,
+      minimumAge: 14,
+      capacity: 1,
+      waiverRequired: true,
+      isPackage: true,
       imageUrl: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&q=80&w=800",
     },
-  });
+  ];
 
-  // Link bundle items
-  await prisma.experienceItem.deleteMany({ where: { packageId: expComboVIP.id } });
-  await prisma.experienceItem.createMany({
-    data: [
-      { packageId: expComboVIP.id, componentId: expKartAdult.id, quantity: 1 },
-      { packageId: expComboVIP.id, componentId: expPaintball.id, quantity: 1 },
-      { packageId: expComboVIP.id, componentId: expSky.id, quantity: 1 },
-    ],
-  });
-  console.log("✅ Catalog seeded with 5 activities + 1 VIP Package.");
+  for (const exp of experiencesData) {
+    await prisma.experience.upsert({
+      where: { tenantId_slug: { tenantId: tenant.id, slug: exp.slug } },
+      update: {
+        name: exp.name,
+        description: exp.description,
+        price: exp.price,
+        capacity: exp.capacity,
+        durationMinutes: exp.durationMinutes,
+        minimumAge: exp.minimumAge,
+        minimumHeightCm: exp.minimumHeightCm,
+        isPackage: exp.isPackage,
+        imageUrl: exp.imageUrl,
+      },
+      create: {
+        tenantId: tenant.id,
+        name: exp.name,
+        slug: exp.slug,
+        description: exp.description,
+        price: exp.price,
+        currency: "USD",
+        durationMinutes: exp.durationMinutes,
+        minimumAge: exp.minimumAge,
+        minimumHeightCm: exp.minimumHeightCm,
+        capacity: exp.capacity,
+        waiverRequired: exp.waiverRequired,
+        isPackage: exp.isPackage,
+        active: true,
+        imageUrl: exp.imageUrl,
+      },
+    });
+  }
+  console.log("✅ Catalog seeded with exact 11 experiences.");
+
 
   // 6. Waiver & Legal Version 1
   let waiver = await prisma.waiver.findFirst({ where: { tenantId: tenant.id } });

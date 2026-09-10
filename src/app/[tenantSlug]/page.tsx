@@ -64,120 +64,48 @@ export default function TenantCatalogPage({
       </section>
 
       {/* Experience Catalog */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">{t("catalogTitle")}</h2>
-            <p className="text-sm text-slate-400">{t("catalogSubtitle")}</p>
-          </div>
-          <span className="text-xs font-mono bg-slate-900 border border-slate-800 text-slate-400 px-3 py-1.5 rounded-lg">
-            {experiences.length} {t("catalogAvailable")}
-          </span>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+        <div className="mb-6">
+          <h2 className="text-2xl font-black text-white tracking-tight">{t("chooseExperienceTitle")}</h2>
+          <p className="text-sm text-slate-400 mt-1">{t("chooseExperienceSubtitle")}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {experiences.map((exp) => {
             const priceDop = convertToDop(exp.price, tenant.exchangeRate);
-            const description = getLocalizedDesc(exp.slug, exp.description);
 
             return (
-              <div
+              <Link
                 key={exp.id}
-                className={`group relative bg-slate-900/70 border rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col ${
-                  exp.isPackage
-                    ? "border-orange-500/50 shadow-orange-500/10 hover:border-orange-500"
-                    : "border-slate-800 hover:border-slate-700"
-                }`}
+                href={`/${params.tenantSlug}/booking?exp=${exp.id}`}
+                className="group relative bg-[#121824] hover:bg-[#182030] border border-slate-800/90 hover:border-orange-500 rounded-2xl p-6 transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-lg hover:shadow-orange-500/10 hover:-translate-y-0.5"
               >
-                {/* Package Badge */}
-                {exp.isPackage && (
-                  <div className="absolute top-3 right-3 z-20 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[11px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" />
-                    {t("vipPackageBadge")}
+                <div>
+                  <h3 className="font-bold text-white text-base sm:text-lg tracking-tight group-hover:text-orange-400 transition-colors">
+                    {exp.name}
+                  </h3>
+
+                  <div className="text-3xl font-black text-orange-500 font-mono my-3 tracking-tight">
+                    {formatCurrency(exp.price, "USD")}
                   </div>
-                )}
 
-                {/* Image */}
-                <div className="relative h-52 w-full overflow-hidden bg-slate-800">
-                  <img
-                    src={exp.imageUrl}
-                    alt={exp.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
-
-                  {/* Duration badge */}
-                  <div className="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur-sm border border-slate-700/60 rounded-lg px-2 py-1 text-xs text-slate-200 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-orange-400" />
-                    <span>{exp.durationMinutes} min</span>
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800/90 border border-slate-700/60 text-slate-300 text-xs font-medium w-fit mb-4">
+                    {exp.participantsCount} {exp.participantsCount === 1 ? t("participantBadge") : t("participantsBadge")}
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">
-                      {exp.name}
-                    </h3>
-                    <p className="mt-2 text-xs text-slate-400 leading-relaxed line-clamp-2">
-                      {description}
-                    </p>
-
-                    {/* Requirements Tags */}
-                    <div className="mt-4 flex flex-wrap gap-2 text-[11px]">
-                      {exp.minimumAge && (
-                        <span className="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">
-                          {t("minAgeLabel")} {exp.minimumAge} {t("yearsLabel")}
-                        </span>
-                      )}
-                      {exp.minimumHeightCm && (
-                        <span className="bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">
-                          {t("minHeightLabel")} {exp.minimumHeightCm} cm
-                        </span>
-                      )}
-                      <span className="bg-emerald-950/50 text-emerald-400 px-2 py-0.5 rounded border border-emerald-800/60">
-                        {t("waiverRequiredBadge")}
-                      </span>
-                    </div>
-
-                    {/* Package inclusions */}
-                    {exp.activities && (
-                      <div className="mt-3 p-2.5 rounded-lg bg-orange-950/20 border border-orange-900/30 text-[11px] text-orange-300">
-                        <span className="font-semibold block mb-1">{t("includesTitle")}</span>
-                        <ul className="list-disc list-inside space-y-0.5 text-slate-300">
-                          {exp.activities.map((act, i) => (
-                            <li key={i}>{act}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Price & Action */}
-                  <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
-                    <div>
-                      <div className="text-2xl font-black text-white">
-                        {formatCurrency(exp.price, "USD")}
-                      </div>
-                      <div className="text-[11px] text-slate-400">
-                        ~ {formatCurrency(priceDop, "DOP")}
-                      </div>
-                    </div>
-
-                    <Link
-                      href={`/sunkart-pc/booking?exp=${exp.id}`}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-bold text-xs bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/20 hover:shadow-orange-500/40 transition-all group-hover:scale-105"
-                    >
-                      <span>{t("bookButton")}</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
+                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-medium">
+                  <span>{exp.category}</span>
+                  <span className="text-orange-400 font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                    {t("bookButton")} →
+                  </span>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
       </section>
+
     </div>
   );
 }

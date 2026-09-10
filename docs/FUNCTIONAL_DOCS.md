@@ -10,11 +10,25 @@ Plataforma SaaS multi-empresa diseñada para la gestión comercial y operativa i
 **Descripción**: Portal público para que los visitantes seleccionen actividades individuales o paquetes combinados, elijan fecha y registren participantes.
 - **Funcionalidades Clave**:
   - Visualización bilingüe (Español / Inglés) dinámica en tiempo real en todo el embudo (Catálogo, Formulario de Reserva, Waiver Legal v1.0, Checkout, Pasarela de Pagos, Confirmación y Pase QR).
-  - Soporte de Paquetes VIP compuestos por múltiples experiencias a precio promocional.
+  - Catálogo cerrado y especializado compuesto exactamente por 11 paquetes y experiencias preconfiguradas:
+    1. **Go-Kart Individual**: $10.00 USD (1 participante, categoría Go-Kart)
+    2. **Go-Kart Crew 5**: $45.00 USD (5 participantes, categoría Go-Kart)
+    3. **Go-Kart Crew 10**: $85.00 USD (10 participantes, categoría Go-Kart)
+    4. **Paintball Individual**: $20.00 USD (1 participante, categoría Paintball)
+    5. **Paintball Squad 5**: $90.00 USD (5 participantes, categoría Paintball)
+    6. **Paintball Battle 10**: $170.00 USD (10 participantes, categoría Paintball)
+    7. **Paintball Battle 20**: $300.00 USD (20 participantes, categoría Paintball)
+    8. **Sky Adventure Individual**: $10.00 USD (1 participante, categoría Sky Adventure)
+    9. **Sky Adventure Group 5**: $45.00 USD (5 participantes, categoría Sky Adventure)
+    10. **Sky Adventure Group 10**: $85.00 USD (10 participantes, categoría Sky Adventure)
+    11. **SunKart Triple Pass**: $35.00 USD (1 participante, combo Go-Kart + Paintball + Sky Adventure)
+  - Soporte de precios planos por paquete (Flat Package Pricing): el precio mostrado cubre la totalidad del paquete y genera dinámicamente la cantidad exacta de slots de participantes requeridos en el registro.
   - Precios duales en tiempo real: Dólares Americanos (USD) y Pesos Dominicanos (DOP) calculados según la tasa de cambio del tenant.
-  - Registro anticipado de nombres y fechas de nacimiento de cada participante.
+  - Registro anticipado de nombres y fechas de nacimiento de cada participante acorde a la capacidad del paquete.
 - **Reglas de Negocio**:
-  - No se permite reservar sin definir al menos un participante con nombre y fecha de nacimiento.
+  - El usuario puede cambiar de paquete directamente desde el embudo de reservas con un selector interactivo en tarjetas idénticas al catálogo.
+  - La cantidad de participantes se deriva estrictamente del paquete seleccionado (1, 5, 10 o 20 participantes).
+  - No se permite reservar sin definir todos los participantes requeridos por el paquete con nombre y fecha de nacimiento.
   - La fecha de visita no puede ser anterior al día en curso.
   - El sistema calcula automáticamente si un participante es menor de edad (< 18 años).
 

@@ -131,8 +131,9 @@ export default function CheckoutPage({
                     <Calendar className="w-3.5 h-3.5 text-orange-400" />
                     <span>{t("visitDate")}: {bookingDraft.bookingDate}</span>
                     <span>•</span>
-                    <span>{quantity} {t("stepParticipants")}</span>
+                    <span>{bookingDraft.participants.length} {t("stepParticipants")}</span>
                   </div>
+
                   <div className="mt-2 flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
                     <ShieldCheck className="w-4 h-4" />
                     <span>{t("waiverVerifiedBadge")}</span>

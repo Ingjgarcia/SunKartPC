@@ -21,17 +21,22 @@ export const translations = {
     heroFeatureGroups: "Para Adultos, Niños y Grupos",
 
     // Catalog Listing
-    catalogTitle: "Experiencias y Paquetes",
-    catalogSubtitle: "Selecciona una actividad para comenzar tu reserva",
-    catalogAvailable: "Actividades Disponibles",
-    vipPackageBadge: "Paquete VIP",
+    catalogTitle: "1. Elige tu experiencia",
+    catalogSubtitle: "Selecciona un paquete. Los precios mostrados son de demostración y pueden modificarse luego.",
+    catalogAvailable: "Paquetes Disponibles",
+    vipPackageBadge: "Paquete",
+    participantBadge: "participante",
+    participantsBadge: "participantes",
+    chooseExperienceTitle: "1. Elige tu experiencia",
+    chooseExperienceSubtitle: "Selecciona un paquete. Los precios mostrados son de demostración y pueden modificarse luego.",
     minAgeLabel: "Min.",
     yearsLabel: "años",
     minHeightLabel: "Min.",
     waiverRequiredBadge: "Waiver Requerido",
     includesTitle: "Incluye:",
     bookButton: "Reservar",
-    perPerson: "/ persona",
+    perPerson: "/ paquete",
+
 
     // Experience Items in English & Spanish
     expKartAdultDesc: "Siente la verdadera velocidad en nuestra pista asfaltada de competición con karts de 270cc y cronometraje digital.",
@@ -184,17 +189,22 @@ Al firmar este documento electrónico, declaro de manera libre, voluntaria e inf
     heroFeatureGroups: "For Adults, Kids & Groups",
 
     // Catalog Listing
-    catalogTitle: "Experiences & Packages",
-    catalogSubtitle: "Select an activity to start your booking",
-    catalogAvailable: "Activities Available",
-    vipPackageBadge: "VIP Package",
+    catalogTitle: "1. Choose your experience",
+    catalogSubtitle: "Select a package. Prices below are demo pricing and can be changed later.",
+    catalogAvailable: "Packages Available",
+    vipPackageBadge: "Package",
+    participantBadge: "participant",
+    participantsBadge: "participants",
+    chooseExperienceTitle: "1. Choose your experience",
+    chooseExperienceSubtitle: "Select a package. Prices below are demo pricing and can be changed later.",
     minAgeLabel: "Min.",
     yearsLabel: "years",
     minHeightLabel: "Min.",
     waiverRequiredBadge: "Waiver Required",
     includesTitle: "Includes:",
     bookButton: "Book Now",
-    perPerson: "/ person",
+    perPerson: "/ package",
+
 
     // Experience Items
     expKartAdultDesc: "Feel genuine top speed on our competition asphalt track with 270cc karts and digital lap timing.",
