@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { demoStore, DemoExperience } from "@/lib/demo-store";
-import { formatCurrency, convertToDop } from "@/lib/formatters";
+import { formatCurrency, convertToDop, calculateOrderTotals } from "@/lib/formatters";
 import { Users, Calendar, ArrowRight, User, Mail, Phone, Sparkles, CheckCircle2 } from "lucide-react";
 
 export default function BookingPage({
@@ -106,9 +106,7 @@ export default function BookingPage({
   if (!experience) return null;
 
   const unitPrice = experience.price;
-  const subtotal = unitPrice * quantity;
-  const tax = subtotal * 0.18;
-  const total = subtotal + tax;
+  const { subtotal, tax, total } = calculateOrderTotals({ unitPrice, quantity });
 
   return (
     <div className="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
@@ -349,11 +347,11 @@ export default function BookingPage({
                   <span>x {quantity}</span>
                 </div>
                 <div className="flex justify-between text-slate-300 pt-2 border-t border-slate-800/80">
-                  <span>Subtotal</span>
+                  <span>Subtotal (Base Imponible)</span>
                   <span className="font-mono">{formatCurrency(subtotal, "USD")}</span>
                 </div>
                 <div className="flex justify-between text-slate-400 text-xs">
-                  <span>ITBIS (18%)</span>
+                  <span>ITBIS (18% Incluido)</span>
                   <span className="font-mono">{formatCurrency(tax, "USD")}</span>
                 </div>
 

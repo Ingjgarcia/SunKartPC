@@ -363,13 +363,13 @@ export default function CashierPOSPage() {
                 {/* Financial Summary */}
                 <div className="pt-4 border-t border-slate-800 space-y-1 text-xs text-slate-400">
                   <div className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>Subtotal (Base Imponible)</span>
                     <span className="font-mono text-slate-200">
                       {formatCurrency(selectedOrder.subtotal, "USD")}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>ITBIS (18%)</span>
+                    <span>ITBIS (18% Incluido)</span>
                     <span className="font-mono text-slate-200">
                       {formatCurrency(selectedOrder.tax, "USD")}
                     </span>
@@ -570,11 +570,11 @@ export default function CashierPOSPage() {
 
                 <div className="py-2 border-b border-dashed border-black space-y-0.5">
                   <div className="flex justify-between">
-                    <span>SUBTOTAL:</span>
+                    <span>SUBTOTAL (Base):</span>
                     <span>${selectedOrder.subtotal}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>ITBIS (18%):</span>
+                    <span>ITBIS (18% Incluido):</span>
                     <span>${selectedOrder.tax}</span>
                   </div>
                   <div className="flex justify-between font-bold text-sm pt-1">

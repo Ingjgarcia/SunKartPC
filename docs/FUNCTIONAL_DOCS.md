@@ -38,11 +38,16 @@ Plataforma SaaS multi-empresa diseñada para la gestión comercial y operativa i
 ### Módulo: Checkout y Pasarela de Pagos Desacoplada (Payment Gateway)
 **Descripción**: Motor financiero que liquida órdenes mediante pago en línea con tarjeta o emisión de comprobante de pago posterior en caja.
 - **Funcionalidades Clave**:
-  - Desglose transparente del subtotal, impuestos ITBIS (18%) y total a pagar.
+  - Los precios publicados en el catálogo **ya incluyen el ITBIS (18%)**.
+  - Desglose transparente en checkout y comprobante:
+    - **Subtotal (Base Imponible)** = Total / 1.18
+    - **ITBIS (18% Incluido)** = Total - Subtotal
+    - **Total a Pagar**: Es exactamente el precio publicado multiplicado por la cantidad de participantes (sin cargos sorpresa).
   - Modo Dual de Pago:
     - **Pagar Online**: Procesamiento instantáneo (Modo Demo simulador de aprobación/rechazo o AZUL con redirección 3D-Secure). Emite de inmediato el QR Pass activo.
     - **Pagar en Caja del Parque**: Genera una orden en estado `PENDING_PAYMENT` y un código amigable para cobrar en efectivo o tarjeta física en recepción.
 - **Reglas de Negocio**:
+  - En caja POS o pasarela online jamás se agrega el 18% como costo adicional sobre el precio del catálogo; el impuesto se desglosa internamente a partir del precio final.
   - Las credenciales bancarias de AZUL (AuthKey, MerchantId) se procesan estrictamente del lado del servidor; nunca se exponen al navegador.
   - No se almacena CVV ni numeración completa de tarjeta en ninguna base de datos ni logs.
 

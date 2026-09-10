@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { formatCurrency, convertToDop } from "@/lib/formatters";
+import { formatCurrency, convertToDop, calculateOrderTotals } from "@/lib/formatters";
 import { Check, CreditCard, Banknote, ShieldCheck, ArrowRight, UserCheck, Calendar } from "lucide-react";
 
 export default function CheckoutPage({
@@ -33,9 +33,7 @@ export default function CheckoutPage({
 
   const unitPrice = bookingDraft.experience.price;
   const quantity = bookingDraft.quantity;
-  const subtotal = unitPrice * quantity;
-  const tax = subtotal * 0.18;
-  const total = subtotal + tax;
+  const { subtotal, tax, total } = calculateOrderTotals({ unitPrice, quantity });
   const totalDop = convertToDop(total);
 
   const handleCheckout = async () => {
@@ -246,11 +244,11 @@ export default function CheckoutPage({
 
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between text-slate-300">
-                  <span>Subtotal ({quantity} participantes)</span>
+                  <span>Subtotal (Base Imponible)</span>
                   <span className="font-mono">{formatCurrency(subtotal, "USD")}</span>
                 </div>
                 <div className="flex justify-between text-slate-300">
-                  <span>ITBIS (18% Ley Dominicana)</span>
+                  <span>ITBIS (18% Incluido)</span>
                   <span className="font-mono">{formatCurrency(tax, "USD")}</span>
                 </div>
 

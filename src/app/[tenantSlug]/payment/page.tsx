@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { formatCurrency, convertToDop } from "@/lib/formatters";
+import { formatCurrency, convertToDop, calculateOrderTotals } from "@/lib/formatters";
 import { CreditCard, CheckCircle2, XCircle, Banknote, ShieldCheck, Lock, Loader2 } from "lucide-react";
 
 export default function PaymentProcessingPage({
@@ -28,9 +28,7 @@ export default function PaymentProcessingPage({
 
   const unitPrice = bookingDraft.experience.price;
   const quantity = bookingDraft.quantity;
-  const subtotal = unitPrice * quantity;
-  const tax = subtotal * 0.18;
-  const total = subtotal + tax;
+  const { subtotal, tax, total } = calculateOrderTotals({ unitPrice, quantity });
 
   const handleSimulatePayment = async (status: "APPROVED" | "DECLINED") => {
     setIsProcessing(true);

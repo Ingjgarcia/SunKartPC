@@ -22,3 +22,6 @@ Todas las modificaciones notables y características implementadas en el sistema
 - **Panel Administrativo (`/dashboard/admin`)**: Métricas operativas en tiempo real (Ingresos hoy, órdenes procesadas, participantes y waivers firmados) y visualización del catálogo.
 - **Pasarelas de Pago Desacopladas**: Abstracción `IPaymentProvider` con `MockPaymentProvider` y `AzulPaymentProvider` implementando el cálculo de firma criptográfica HMAC-SHA512 `AuthHash` para República Dominicana.
 - **Documentación Técnica**: Generados `docs/DATA_BASE.md` con modelo entidad-relación en Mermaid y diccionario de datos, y `docs/FUNCTIONAL_DOCS.md` con las reglas de negocio y flujos.
+
+### Fixed
+- **Cálculo de ITBIS (18%) Incluido**: Corregido el cálculo en `calculateOrderTotals`, Booking, Checkout, Pasarela de Pago, Caja POS y Recibo Térmico de 80mm para que el impuesto esté **incluido** dentro del precio publicado en el catálogo (`Subtotal = Total / 1.18`, `ITBIS = Total - Subtotal`), evitando que el sistema agregue un 18% extra sobre el valor anunciado al momento de pagar.
