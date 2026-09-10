@@ -1,4 +1,4 @@
-import Link from "next/navigation";
+import Link from "next/link";
 import { demoStore } from "@/lib/demo-store";
 import { formatCurrency, convertToDop } from "@/lib/formatters";
 import { Clock, Users, Shield, Sparkles, Trophy, ChevronRight } from "lucide-react";
