@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { formatCurrency } from "@/lib/formatters";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { QrCode, CheckCircle2, Clock, AlertTriangle, ShieldCheck, Printer, Users } from "lucide-react";
 
 export default function DigitalPassPage({
@@ -9,6 +10,7 @@ export default function DigitalPassPage({
 }: {
   params: { tenantSlug: string; token: string };
 }) {
+  const { t } = useLanguage();
   const [passData, setPassData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,23 +23,23 @@ export default function DigitalPassPage({
         if (data.success) {
           setPassData(data.data);
         } else {
-          setError(data.error?.message || "No se pudo encontrar el pase.");
+          setError(data.error?.message || t("passNotFoundSubtitle"));
         }
       } catch (err: any) {
-        setError("Error al cargar el pase de acceso.");
+        setError(t("passNotFoundSubtitle"));
       } finally {
         setLoading(false);
       }
     }
     loadPass();
-  }, [params.token]);
+  }, [params.token, t]);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-          <p className="text-sm">Cargando Pase Digital...</p>
+          <p className="text-sm">{t("loadingPass")}</p>
         </div>
       </div>
     );
@@ -48,13 +50,13 @@ export default function DigitalPassPage({
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 max-w-sm w-full text-center">
           <AlertTriangle className="w-12 h-12 text-rose-400 mx-auto mb-3" />
-          <h2 className="text-lg font-bold text-white mb-2">Pase No Encontrado</h2>
-          <p className="text-xs text-slate-400 mb-4">{error || "El token de acceso no es válido."}</p>
+          <h2 className="text-lg font-bold text-white mb-2">{t("passNotFoundTitle")}</h2>
+          <p className="text-xs text-slate-400 mb-4">{error || t("passNotFoundSubtitle")}</p>
           <a
             href={`/${params.tenantSlug}`}
             className="block py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold"
           >
-            Volver al Inicio
+            {t("backToHomeBtn")}
           </a>
         </div>
       </div>
@@ -73,7 +75,7 @@ export default function DigitalPassPage({
           <div className="inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-widest bg-black/20 px-3 py-1 rounded-full mb-2">
             SunKart Park Punta Cana
           </div>
-          <h1 className="text-xl font-black tracking-tight">PASE DE ACCESO DIGITAL</h1>
+          <h1 className="text-xl font-black tracking-tight">{t("passTitle")}</h1>
           <p className="text-xs text-orange-100 font-mono mt-1">{pass.passCode}</p>
         </div>
 
@@ -88,11 +90,11 @@ export default function DigitalPassPage({
           }`}
         >
           {isUsed ? (
-            <span>⛔ PASE YA UTILIZADO</span>
+            <span>{t("passUsed")}</span>
           ) : isPaid ? (
-            <span>✅ PASE ACTIVO Y VÁLIDO</span>
+            <span>{t("passValid")}</span>
           ) : (
-            <span>⚠️ PENDIENTE DE COBRO EN CAJA</span>
+            <span>{t("passPending")}</span>
           )}
         </div>
 
@@ -108,7 +110,7 @@ export default function DigitalPassPage({
             )}
           </div>
           <p className="mt-3 text-[11px] text-slate-400">
-            Presenta este código al personal de pista o en la caja receptora.
+            {t("passInstruction")}
           </p>
         </div>
 
@@ -116,17 +118,17 @@ export default function DigitalPassPage({
         <div className="px-6 pb-6 space-y-4">
           <div className="p-4 bg-slate-950/80 rounded-2xl border border-slate-800/80 text-xs space-y-2">
             <div className="flex justify-between">
-              <span className="text-slate-400">Orden:</span>
+              <span className="text-slate-400">{t("orderLabel")}</span>
               <span className="font-bold text-white font-mono">{order.orderNumber}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Titular:</span>
+              <span className="text-slate-400">{t("customerLabel")}</span>
               <span className="font-semibold text-white">
                 {order.customer.firstName} {order.customer.lastName}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-400">Total:</span>
+              <span className="text-slate-400">{t("totalLabel")}</span>
               <span className="font-bold text-orange-400 font-mono">
                 {formatCurrency(order.total, order.currency)}
               </span>
@@ -137,7 +139,7 @@ export default function DigitalPassPage({
           <div className="bg-slate-950/80 rounded-2xl p-4 border border-slate-800/80 text-xs">
             <div className="flex items-center gap-1.5 font-bold text-white mb-2">
               <Users className="w-4 h-4 text-orange-400" />
-              <span>Participantes Autorizados ({order.participants.length})</span>
+              <span>{t("authorizedParticipants")} ({order.participants.length})</span>
             </div>
             <ul className="space-y-1 text-slate-300">
               {order.participants.map((p: any, i: number) => (
@@ -158,10 +160,11 @@ export default function DigitalPassPage({
             className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-semibold text-xs rounded-xl flex items-center justify-center gap-2 border border-slate-700 transition-colors"
           >
             <Printer className="w-4 h-4" />
-            <span>Imprimir o Guardar como PDF</span>
+            <span>{t("printPdfBtn")}</span>
           </button>
         </div>
       </div>
     </div>
   );
 }
+

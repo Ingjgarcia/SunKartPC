@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { formatCurrency, convertToDop, calculateOrderTotals } from "@/lib/formatters";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { CreditCard, CheckCircle2, XCircle, Banknote, ShieldCheck, Lock, Loader2 } from "lucide-react";
 
 export default function PaymentProcessingPage({
@@ -11,9 +12,11 @@ export default function PaymentProcessingPage({
   params: { tenantSlug: string };
 }) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [bookingDraft, setBookingDraft] = useState<any>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorModal, setErrorModal] = useState<string | null>(null);
+
 
   useEffect(() => {
     const saved = localStorage.getItem("adventureos_booking_draft");
@@ -36,10 +39,11 @@ export default function PaymentProcessingPage({
     if (status === "DECLINED") {
       setTimeout(() => {
         setIsProcessing(false);
-        setErrorModal("Transacción declinada por el banco emisor (Fondos insuficientes / Código 51). Por favor intenta con otra tarjeta o paga en caja.");
+        setErrorModal(t("declinedReason"));
       }, 1000);
       return;
     }
+
 
     // Success -> Create order in DB / demoStore as PAID
     try {
@@ -93,32 +97,32 @@ export default function PaymentProcessingPage({
           <div className="w-14 h-14 mx-auto rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 mb-3 shadow-lg shadow-orange-500/10">
             <Lock className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Pasarela de Pagos Segura</h1>
+          <h1 className="text-2xl font-bold text-white tracking-tight">{t("paymentGatewayTitle")}</h1>
           <p className="text-xs text-slate-400 mt-1">
-            Conexión encriptada SSL 256-bit • AZUL República Dominicana
+            {t("paymentGatewaySubtitle")}
           </p>
         </div>
 
         {/* Amount Card */}
         <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-5 mb-6 text-center">
           <span className="text-xs text-slate-400 block mb-1 uppercase tracking-wider font-semibold">
-            Total a Cobrar
+            {t("totalToCharge")}
           </span>
           <div className="text-3xl font-black text-white font-mono">
             {formatCurrency(total, "USD")}
           </div>
           <div className="text-xs text-orange-400 font-mono mt-1">
-            ~ {formatCurrency(convertToDop(total), "DOP")} (ITBIS 18% incluido)
+            ~ {formatCurrency(convertToDop(total), "DOP")} ({t("itbisIncluded")})
           </div>
           <div className="text-[11px] text-slate-500 mt-2">
-            Orden: {bookingDraft.experience.name} • {quantity} Participante(s)
+            {bookingDraft.experience.name} • {quantity} {t("stepParticipants")}
           </div>
         </div>
 
         {/* Demo Mode Simulation Actions */}
         <div className="space-y-3">
           <div className="px-3 py-1.5 rounded-lg bg-orange-950/40 border border-orange-900/50 text-[11px] text-orange-300 text-center font-medium">
-            Simulador de Gateway (Banco Popular / AZUL 3DS)
+            {t("gatewaySimulatorBadge")}
           </div>
 
           <button
@@ -131,7 +135,7 @@ export default function PaymentProcessingPage({
             ) : (
               <>
                 <CheckCircle2 className="w-5 h-5" />
-                <span>Simular Pago Aprobado (3DS Éxito)</span>
+                <span>{t("simulateApprovedBtn")}</span>
               </>
             )}
           </button>
@@ -142,7 +146,7 @@ export default function PaymentProcessingPage({
             className="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
           >
             <XCircle className="w-4 h-4 text-rose-400" />
-            <span>Simular Tarjeta Declinada (Fondos Insuficientes)</span>
+            <span>{t("simulateDeclinedBtn")}</span>
           </button>
 
           <button
@@ -150,7 +154,7 @@ export default function PaymentProcessingPage({
             disabled={isProcessing}
             className="w-full py-2.5 text-center text-xs text-slate-400 hover:text-white transition-colors"
           >
-            ← Volver y cambiar método de pago
+            {t("backChangePayment")}
           </button>
         </div>
 
@@ -158,7 +162,7 @@ export default function PaymentProcessingPage({
         <div className="mt-8 pt-6 border-t border-slate-800/80 flex items-center justify-center gap-6 text-[11px] text-slate-500">
           <div className="flex items-center gap-1.5">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>PCI-DSS Certificado</span>
+            <span>{t("pciCertified")}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <Lock className="w-4 h-4 text-orange-400" />
@@ -173,13 +177,13 @@ export default function PaymentProcessingPage({
               <div className="w-12 h-12 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto mb-3">
                 <XCircle className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Transacción Rechazada</h3>
+              <h3 className="text-lg font-bold text-white mb-2">{t("transactionDeclinedTitle")}</h3>
               <p className="text-xs text-slate-300 leading-relaxed mb-6">{errorModal}</p>
               <button
                 onClick={() => setErrorModal(null)}
                 className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition-colors"
               >
-                Reintentar Pago
+                {t("retryPaymentBtn")}
               </button>
             </div>
           </div>
@@ -188,3 +192,4 @@ export default function PaymentProcessingPage({
     </div>
   );
 }
+

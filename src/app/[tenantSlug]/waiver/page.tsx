@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { demoStore } from "@/lib/demo-store";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { ShieldAlert, Check, RefreshCw, ArrowRight, UserCheck, AlertTriangle } from "lucide-react";
 
 export default function WaiverPage({
@@ -11,6 +12,7 @@ export default function WaiverPage({
   params: { tenantSlug: string };
 }) {
   const router = useRouter();
+  const { t } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [hasSignature, setHasSignature] = useState(false);
@@ -27,7 +29,8 @@ export default function WaiverPage({
   const [guardianPhone, setGuardianPhone] = useState("");
   const [guardianEmail, setGuardianEmail] = useState("");
 
-  const waiverText = demoStore.waiverVersion.legalText;
+  const waiverText = t("waiverLegalText");
+
 
   useEffect(() => {
     const saved = localStorage.getItem("adventureos_booking_draft");
@@ -111,17 +114,17 @@ export default function WaiverPage({
     e.preventDefault();
 
     if (!hasSignature) {
-      alert("Por favor dibuja tu firma electrónica en el recuadro indicado.");
+      alert(t("alertDrawSignature"));
       return;
     }
 
     if (!acceptedTerms) {
-      alert("Debes aceptar los términos y condiciones de la exoneración legal.");
+      alert(t("alertAcceptWaiver"));
       return;
     }
 
     if (hasMinor && (!guardianName || !guardianRelation || !guardianPhone)) {
-      alert("Por favor completa los datos obligatorios del padre/madre o tutor legal.");
+      alert(t("alertGuardianRequired"));
       return;
     }
 
@@ -166,17 +169,17 @@ export default function WaiverPage({
           <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
               <Check className="w-4 h-4" />
-              Participantes
+              {t("stepParticipants")}
             </span>
             <span className="text-orange-500">———</span>
             <span className="text-orange-400 font-bold flex items-center gap-1.5">
               <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px]">2</span>
-              Waiver Digital
+              {t("stepWaiver")}
             </span>
             <span className="text-slate-600">———</span>
             <span className="flex items-center gap-1.5 text-slate-500">
               <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-[10px]">3</span>
-              Checkout & Pago
+              {t("stepCheckout")}
             </span>
           </div>
         </div>
@@ -187,10 +190,10 @@ export default function WaiverPage({
             <div className="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
                 <ShieldAlert className="w-5 h-5 text-orange-400" />
-                <h1 className="text-lg font-bold text-white">Acuerdo Legal de Exoneración de Responsabilidad</h1>
+                <h1 className="text-lg font-bold text-white">{t("waiverTitle")}</h1>
               </div>
               <span className="text-[11px] font-mono bg-slate-800 text-orange-300 px-2.5 py-1 rounded">
-                Versión Legal v1.0
+                {t("legalVersion")}
               </span>
             </div>
 
@@ -204,7 +207,7 @@ export default function WaiverPage({
             <div className="mt-4 flex items-center gap-2 text-xs text-slate-400">
               <UserCheck className="w-4 h-4 text-emerald-400" />
               <span>
-                Firmando en nombre de:{" "}
+                {t("signingOnBehalfOf")}{" "}
                 <strong className="text-white">
                   {bookingDraft.participants.map((p: any) => p.fullName).join(", ")}
                 </strong>
@@ -219,17 +222,17 @@ export default function WaiverPage({
                 <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <h2 className="text-base font-bold text-amber-300">
-                    Consentimiento Obligatorio de Padre / Tutor Legal
+                    {t("guardianTitle")}
                   </h2>
                   <p className="text-xs text-amber-200/80 mt-1">
-                    Uno o más participantes son menores de 18 años. La ley exige los datos y consentimiento expreso del padre, madre o tutor legal.
+                    {t("guardianSubtitle")}
                   </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                 <div>
-                  <label className="block text-xs text-slate-300 mb-1 font-medium">Nombre del Padre / Tutor</label>
+                  <label className="block text-xs text-slate-300 mb-1 font-medium">{t("guardianName")}</label>
                   <input
                     type="text"
                     value={guardianName}
@@ -240,20 +243,20 @@ export default function WaiverPage({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-slate-300 mb-1 font-medium">Parentesco o Relación</label>
+                  <label className="block text-xs text-slate-300 mb-1 font-medium">{t("guardianRelation")}</label>
                   <select
                     value={guardianRelation}
                     onChange={(e) => setGuardianRelation(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500"
                     required
                   >
-                    <option value="Padre / Madre">Padre / Madre</option>
-                    <option value="Tutor Legal">Tutor Legal</option>
-                    <option value="Familiar Autorizado">Familiar Autorizado (+18)</option>
+                    <option value="Padre / Madre">{t("parentRelationOption")}</option>
+                    <option value="Tutor Legal">{t("legalGuardianOption")}</option>
+                    <option value="Familiar Autorizado">{t("authorizedRelativeOption")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs text-slate-300 mb-1 font-medium">Teléfono del Tutor</label>
+                  <label className="block text-xs text-slate-300 mb-1 font-medium">{t("guardianPhone")}</label>
                   <input
                     type="tel"
                     value={guardianPhone}
@@ -264,7 +267,7 @@ export default function WaiverPage({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-slate-300 mb-1 font-medium">Email del Tutor</label>
+                  <label className="block text-xs text-slate-300 mb-1 font-medium">{t("guardianEmail")}</label>
                   <input
                     type="email"
                     value={guardianEmail}
@@ -281,8 +284,8 @@ export default function WaiverPage({
           <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h2 className="text-base font-bold text-white">Firma Electrónica</h2>
-                <p className="text-xs text-slate-400">Dibuja tu firma con el dedo o ratón en el área delimitada.</p>
+                <h2 className="text-base font-bold text-white">{t("electronicSignature")}</h2>
+                <p className="text-xs text-slate-400">{t("signatureInstructions")}</p>
               </div>
               <button
                 type="button"
@@ -290,7 +293,7 @@ export default function WaiverPage({
                 className="flex items-center gap-1 text-xs text-slate-400 hover:text-white px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 transition-colors"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
-                Limpiar Firma
+                {t("clearSignature")}
               </button>
             </div>
 
@@ -310,7 +313,7 @@ export default function WaiverPage({
               />
               {!hasSignature && (
                 <div className="absolute inset-0 pointer-events-none flex items-center justify-center text-slate-600 text-sm font-medium">
-                  Firma aquí con el dedo o ratón ✍️
+                  {t("signaturePlaceholder")}
                 </div>
               )}
             </div>
@@ -325,7 +328,7 @@ export default function WaiverPage({
                 required
               />
               <span className="text-xs text-slate-300 leading-normal">
-                He leído, comprendo y acepto íntegramente las condiciones de la exoneración de responsabilidad civil y asunción de riesgo de SunKart Park Punta Cana.
+                {t("acceptTermsLabel")}
               </span>
             </label>
           </div>
@@ -336,11 +339,12 @@ export default function WaiverPage({
             disabled={isSubmitting}
             className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 font-bold text-white text-base shadow-xl shadow-orange-500/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] disabled:opacity-50"
           >
-            <span>Confirmar Firma y Continuar al Checkout</span>
+            <span>{t("confirmSignatureAndContinue")}</span>
             <ArrowRight className="w-5 h-5" />
           </button>
         </form>
       </div>
     </div>
   );
+
 }

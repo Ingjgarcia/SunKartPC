@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { formatCurrency, convertToDop, calculateOrderTotals } from "@/lib/formatters";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Check, CreditCard, Banknote, ShieldCheck, ArrowRight, UserCheck, Calendar } from "lucide-react";
 
 export default function CheckoutPage({
@@ -11,9 +12,11 @@ export default function CheckoutPage({
   params: { tenantSlug: string };
 }) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [bookingDraft, setBookingDraft] = useState<any>(null);
   const [paymentMethod, setPaymentMethod] = useState<"ONLINE" | "CASHIER">("ONLINE");
   const [isProcessing, setIsProcessing] = useState(false);
+
 
   useEffect(() => {
     const saved = localStorage.getItem("adventureos_booking_draft");
@@ -94,17 +97,17 @@ export default function CheckoutPage({
           <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
               <Check className="w-4 h-4" />
-              Participantes
+              {t("stepParticipants")}
             </span>
             <span className="text-emerald-500">———</span>
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
               <Check className="w-4 h-4" />
-              Waiver Firmado
+              {t("stepWaiver")}
             </span>
             <span className="text-orange-500">———</span>
             <span className="text-orange-400 font-bold flex items-center gap-1.5">
               <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px]">3</span>
-              Checkout & Pago
+              {t("stepCheckout")}
             </span>
           </div>
         </div>
@@ -114,7 +117,7 @@ export default function CheckoutPage({
           <div className="lg:col-span-2 space-y-6">
             {/* Order Items Review */}
             <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
-              <h2 className="text-lg font-bold text-white mb-4">Detalle de tu Experiencia</h2>
+              <h2 className="text-lg font-bold text-white mb-4">{t("checkoutDetailsTitle")}</h2>
               
               <div className="flex items-start gap-4 pb-4 border-b border-slate-800">
                 <img
@@ -126,20 +129,20 @@ export default function CheckoutPage({
                   <h3 className="font-bold text-white text-base">{bookingDraft.experience.name}</h3>
                   <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
                     <Calendar className="w-3.5 h-3.5 text-orange-400" />
-                    <span>Fecha: {bookingDraft.bookingDate}</span>
+                    <span>{t("visitDate")}: {bookingDraft.bookingDate}</span>
                     <span>•</span>
-                    <span>{quantity} Participante(s)</span>
+                    <span>{quantity} {t("stepParticipants")}</span>
                   </div>
                   <div className="mt-2 flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
                     <ShieldCheck className="w-4 h-4" />
-                    <span>Waiver Digital Firmado y Verificado</span>
+                    <span>{t("waiverVerifiedBadge")}</span>
                   </div>
                 </div>
               </div>
 
               {/* Participants list badge */}
               <div className="mt-4">
-                <span className="text-xs text-slate-400 block mb-2">Corredores Registrados:</span>
+                <span className="text-xs text-slate-400 block mb-2">{t("registeredRacers")}</span>
                 <div className="flex flex-wrap gap-2">
                   {bookingDraft.participants.map((p: any, i: number) => (
                     <span
@@ -147,7 +150,7 @@ export default function CheckoutPage({
                       className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-xs text-slate-300 flex items-center gap-1.5"
                     >
                       <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
-                      {p.fullName} {p.isMinor ? "(Menor)" : ""}
+                      {p.fullName} {p.isMinor ? `(${t("minorLabel")})` : ""}
                     </span>
                   ))}
                 </div>
@@ -156,9 +159,9 @@ export default function CheckoutPage({
 
             {/* Payment Method Selector */}
             <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
-              <h2 className="text-lg font-bold text-white mb-2">Método de Pago</h2>
+              <h2 className="text-lg font-bold text-white mb-2">{t("paymentMethodTitle")}</h2>
               <p className="text-xs text-slate-400 mb-4">
-                Selecciona cómo deseas abonar tu reservación en SunKart Park Punta Cana.
+                {t("paymentMethodSubtitle")}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -183,12 +186,12 @@ export default function CheckoutPage({
                       {paymentMethod === "ONLINE" && <span className="w-1.5 h-1.5 rounded-full bg-white"></span>}
                     </span>
                   </div>
-                  <h3 className="font-bold text-white text-sm">Pagar Online Ahora</h3>
+                  <h3 className="font-bold text-white text-sm">{t("payOnlineTitle")}</h3>
                   <p className="text-xs text-slate-400 mt-1">
-                    Tarjeta de crédito/débito nacional o internacional con 3DS. Pase QR activo al instante.
+                    {t("payOnlineDesc")}
                   </p>
                   <span className="inline-block mt-3 text-[10px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-300 px-2 py-0.5 rounded">
-                    Recomendado • Sin Filas
+                    {t("recommendedBadge")}
                   </span>
                 </div>
 
@@ -213,12 +216,12 @@ export default function CheckoutPage({
                       {paymentMethod === "CASHIER" && <span className="w-1.5 h-1.5 rounded-full bg-white"></span>}
                     </span>
                   </div>
-                  <h3 className="font-bold text-white text-sm">Pagar en Caja del Parque</h3>
+                  <h3 className="font-bold text-white text-sm">{t("payCashierTitle")}</h3>
                   <p className="text-xs text-slate-400 mt-1">
-                    Genera tu voucher QR y paga al llegar en efectivo (USD o DOP) o tarjeta en nuestro counter de recepción.
+                    {t("payCashierDesc")}
                   </p>
                   <span className="inline-block mt-3 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">
-                    Efectivo o POS
+                    {t("cashierBadge")}
                   </span>
                 </div>
               </div>
@@ -230,7 +233,7 @@ export default function CheckoutPage({
               disabled={isProcessing}
               className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 font-bold text-white text-base shadow-xl shadow-orange-500/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] disabled:opacity-50"
             >
-              <span>{paymentMethod === "ONLINE" ? "Proceder al Pago Online" : "Generar Voucher para Pagar en Caja"}</span>
+              <span>{paymentMethod === "ONLINE" ? t("proceedOnlineBtn") : t("proceedCashierBtn")}</span>
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
@@ -239,21 +242,21 @@ export default function CheckoutPage({
           <div>
             <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sticky top-24">
               <h3 className="font-bold text-white text-base mb-4 border-b border-slate-800 pb-3">
-                Desglose Financiero
+                {t("financialBreakdown")}
               </h3>
 
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between text-slate-300">
-                  <span>Subtotal (Base Imponible)</span>
+                  <span>{t("subtotalTaxBase")}</span>
                   <span className="font-mono">{formatCurrency(subtotal, "USD")}</span>
                 </div>
                 <div className="flex justify-between text-slate-300">
-                  <span>ITBIS (18% Incluido)</span>
+                  <span>{t("itbisIncluded")}</span>
                   <span className="font-mono">{formatCurrency(tax, "USD")}</span>
                 </div>
 
                 <div className="pt-3 border-t border-slate-800 flex justify-between items-baseline">
-                  <span className="font-bold text-white text-base">Total Final</span>
+                  <span className="font-bold text-white text-base">{t("totalFinal")}</span>
                   <div className="text-right">
                     <span className="font-black text-orange-400 text-2xl font-mono block">
                       {formatCurrency(total, "USD")}
@@ -267,7 +270,7 @@ export default function CheckoutPage({
 
               <div className="mt-6 pt-4 border-t border-slate-800/80 text-xs text-slate-400 leading-relaxed">
                 <p>
-                  Comprobante con Valor Fiscal disponible en caja o descargable tras la confirmación de la orden.
+                  {t("fiscalReceiptNote")}
                 </p>
               </div>
             </div>
@@ -275,5 +278,6 @@ export default function CheckoutPage({
         </div>
       </div>
     </div>
+
   );
 }

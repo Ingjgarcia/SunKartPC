@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { SessionProvider } from "@/components/SessionProvider";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 export const metadata: Metadata = {
   title: "SunKart Park Punta Cana | AdventureOS Management Platform",
@@ -18,8 +19,9 @@ export default function RootLayout({
     <html lang="es" className="dark">
       <body className="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-orange-500 selection:text-white">
         <SessionProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
+          <LanguageProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
           <footer className="border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500">
             <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
               <p>
@@ -35,6 +37,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
+          </LanguageProvider>
         </SessionProvider>
       </body>
     </html>

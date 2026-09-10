@@ -25,3 +25,5 @@ Todas las modificaciones notables y características implementadas en el sistema
 
 ### Fixed
 - **Cálculo de ITBIS (18%) Incluido**: Corregido el cálculo en `calculateOrderTotals`, Booking, Checkout, Pasarela de Pago, Caja POS y Recibo Térmico de 80mm para que el impuesto esté **incluido** dentro del precio publicado en el catálogo (`Subtotal = Total / 1.18`, `ITBIS = Total - Subtotal`), evitando que el sistema agregue un 18% extra sobre el valor anunciado al momento de pagar.
+- **Internacionalización Dinámica Completa (i18n)**: Resuelto el comportamiento donde cambiar de idioma solo alteraba los títulos de navegación. Se implementó `LanguageProvider`, `LanguageContext` y un diccionario bilingüe (`translations.ts`) conectado a todas las pantallas del funnel (Catálogo, Reserva, Waiver Legal v1.0, Checkout, Pasarela de Pago, Confirmación y Pase QR), permitiendo alternar instantáneamente entre Español e Inglés con persistencia en `localStorage`.
+

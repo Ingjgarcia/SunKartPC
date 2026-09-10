@@ -9,7 +9,7 @@ Plataforma SaaS multi-empresa diseñada para la gestión comercial y operativa i
 ### Módulo: Catálogo y Reserva de Experiencias (Customer Booking Funnel)
 **Descripción**: Portal público para que los visitantes seleccionen actividades individuales o paquetes combinados, elijan fecha y registren participantes.
 - **Funcionalidades Clave**:
-  - Visualización bilingüe (Español / Inglés) de catálogo de actividades con duraciones, requisitos de edad y estatura.
+  - Visualización bilingüe (Español / Inglés) dinámica en tiempo real en todo el embudo (Catálogo, Formulario de Reserva, Waiver Legal v1.0, Checkout, Pasarela de Pagos, Confirmación y Pase QR).
   - Soporte de Paquetes VIP compuestos por múltiples experiencias a precio promocional.
   - Precios duales en tiempo real: Dólares Americanos (USD) y Pesos Dominicanos (DOP) calculados según la tasa de cambio del tenant.
   - Registro anticipado de nombres y fechas de nacimiento de cada participante.
@@ -17,6 +17,7 @@ Plataforma SaaS multi-empresa diseñada para la gestión comercial y operativa i
   - No se permite reservar sin definir al menos un participante con nombre y fecha de nacimiento.
   - La fecha de visita no puede ser anterior al día en curso.
   - El sistema calcula automáticamente si un participante es menor de edad (< 18 años).
+
 
 ---
 

@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Zap, ShieldCheck, CreditCard, QrCode, BarChart3, LogIn, Globe } from "lucide-react";
-import { useState } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export function Header() {
   const pathname = usePathname();
-  const [lang, setLang] = useState<"es" | "en">("es");
+  const { lang, toggleLang, t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
       {/* Top Demo Notification Banner */}
       <div className="bg-gradient-to-r from-orange-600 to-amber-600 px-4 py-1 text-center text-xs font-semibold tracking-wide text-white flex items-center justify-center gap-2">
         <Zap className="w-3.5 h-3.5" />
-        <span>MODO DEMO ACTIVO — SunKart Park Punta Cana (AdventureOS v1.0)</span>
+        <span>{t("demoBanner")}</span>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -43,7 +43,7 @@ export function Header() {
                 : "text-slate-300 hover:text-white hover:bg-slate-800/60"
             }`}
           >
-            {lang === "es" ? "Catálogo" : "Catalog"}
+            {t("navCatalog")}
           </Link>
           <Link
             href="/dashboard/cashier"
@@ -54,7 +54,7 @@ export function Header() {
             }`}
           >
             <CreditCard className="w-4 h-4" />
-            <span>{lang === "es" ? "Caja POS" : "POS Cashier"}</span>
+            <span>{t("navPos")}</span>
           </Link>
           <Link
             href="/dashboard/scanner"
@@ -65,7 +65,7 @@ export function Header() {
             }`}
           >
             <QrCode className="w-4 h-4" />
-            <span>{lang === "es" ? "Staff Escáner" : "Staff Scanner"}</span>
+            <span>{t("navScanner")}</span>
           </Link>
           <Link
             href="/dashboard/admin"
@@ -76,7 +76,7 @@ export function Header() {
             }`}
           >
             <BarChart3 className="w-4 h-4" />
-            <span>{lang === "es" ? "Dashboard" : "Dashboard"}</span>
+            <span>{t("navDashboard")}</span>
           </Link>
         </nav>
 
@@ -84,12 +84,12 @@ export function Header() {
         <div className="flex items-center gap-3">
           {/* Language Switcher */}
           <button
-            onClick={() => setLang(lang === "es" ? "en" : "es")}
+            onClick={toggleLang}
             className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
-            title="Cambiar idioma"
+            title="Cambiar idioma / Switch language"
           >
             <Globe className="w-3.5 h-3.5 text-orange-400" />
-            <span>{lang.toUpperCase()}</span>
+            <span className="font-mono">{lang === "es" ? "ES (Español)" : "EN (English)"}</span>
           </button>
 
           {/* Login button */}
@@ -98,7 +98,7 @@ export function Header() {
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-xs font-medium text-slate-200 border border-slate-700 transition-all hover:border-slate-600"
           >
             <LogIn className="w-3.5 h-3.5 text-orange-400" />
-            <span>Acceso Staff</span>
+            <span>{t("navStaffLogin")}</span>
           </Link>
         </div>
       </div>

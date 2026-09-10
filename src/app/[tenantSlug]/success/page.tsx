@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import confetti from "canvas-confetti";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { CheckCircle2, QrCode, ArrowRight, Clock, ShieldCheck, Download, Share2 } from "lucide-react";
 
 export default function SuccessPage({
@@ -11,6 +12,7 @@ export default function SuccessPage({
 }: {
   params: { tenantSlug: string };
 }) {
+  const { t } = useLanguage();
   const searchParams = useSearchParams();
   const orderNumber = searchParams.get("order") || "SK-001001";
   const securityToken = searchParams.get("token") || "demo-token";
@@ -51,19 +53,19 @@ export default function SuccessPage({
 
         {/* Title */}
         <h1 className="text-2xl font-black text-white tracking-tight">
-          {isPaid ? "¡Pago Confirmado Exitosamente!" : "¡Orden Registrada para Caja!"}
+          {isPaid ? t("paidSuccessTitle") : t("cashierSuccessTitle")}
         </h1>
 
         <p className="mt-2 text-xs text-slate-400 leading-relaxed">
           {isPaid
-            ? "Tu pase de acceso digital ha sido generado y activado en el sistema. Puedes presentarlo directamente al Staff en la pista."
-            : "Presenta este código en la Caja de SunKart Park Punta Cana para pagar en efectivo o tarjeta física y activar tu pase."}
+            ? t("paidSuccessSubtitle")
+            : t("cashierSuccessSubtitle")}
         </p>
 
         {/* Order Badge Card */}
         <div className="mt-6 p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80">
           <span className="text-[11px] text-slate-500 uppercase tracking-widest font-mono block">
-            Código de Orden
+            {t("orderCodeLabel")}
           </span>
           <div className="text-2xl font-black text-orange-400 font-mono tracking-wider mt-0.5">
             {orderNumber}
@@ -77,7 +79,7 @@ export default function SuccessPage({
                   : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
               }`}
             >
-              {isPaid ? "ESTADO: PAGADO / ACTIVO" : "ESTADO: PENDIENTE DE PAGO"}
+              {isPaid ? t("paidActiveStatus") : t("pendingPaymentStatus")}
             </span>
           </div>
         </div>
@@ -89,7 +91,7 @@ export default function SuccessPage({
             className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm shadow-xl shadow-orange-500/25 flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
           >
             <QrCode className="w-5 h-5" />
-            <span>Ver Mi Pase Digital (Código QR)</span>
+            <span>{t("viewDigitalPassBtn")}</span>
             <ArrowRight className="w-4 h-4 ml-auto" />
           </Link>
 
@@ -97,10 +99,11 @@ export default function SuccessPage({
             href={`/${params.tenantSlug}`}
             className="block text-xs text-slate-400 hover:text-white transition-colors pt-2"
           >
-            Volver al catálogo del parque
+            {t("backToCatalogBtn")}
           </Link>
         </div>
       </div>
     </div>
   );
 }
+
