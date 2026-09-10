@@ -20,8 +20,8 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
         <Link href="/sunkart-pc" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
-            <span className="text-white font-black text-xl tracking-tighter">SK</span>
+          <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
+            <img src="/images/sunkart-logo.png" alt="SunKart Park" className="w-full h-full object-cover" />
           </div>
           <div>
             <span className="text-white font-bold text-lg tracking-tight flex items-center gap-1.5">

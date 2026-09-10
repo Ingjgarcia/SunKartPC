@@ -42,7 +42,7 @@ async function main() {
       active: true,
       settings: {
         create: {
-          logoUrl: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=300",
+          logoUrl: "/images/sunkart-logo.png",
           primaryColor: "#f97316", // SunKart Orange
           secondaryColor: "#0f172a", // Slate Dark
           taxRate: 0.18, // 18% ITBIS
@@ -105,7 +105,7 @@ async function main() {
       capacity: 1,
       waiverRequired: true,
       isPackage: false,
-      imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/gokart.jpg",
     },
     {
       name: "Go-Kart Crew 5",
@@ -118,7 +118,7 @@ async function main() {
       capacity: 5,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/gokart.jpg",
     },
     {
       name: "Go-Kart Crew 10",
@@ -131,7 +131,7 @@ async function main() {
       capacity: 10,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/gokart.jpg",
     },
     {
       name: "Paintball Individual",
@@ -143,7 +143,7 @@ async function main() {
       capacity: 1,
       waiverRequired: true,
       isPackage: false,
-      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/paintball.jpg",
     },
     {
       name: "Paintball Squad 5",
@@ -155,7 +155,7 @@ async function main() {
       capacity: 5,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/paintball.jpg",
     },
     {
       name: "Paintball Battle 10",
@@ -167,7 +167,7 @@ async function main() {
       capacity: 10,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/paintball.jpg",
     },
     {
       name: "Paintball Battle 20",
@@ -179,7 +179,7 @@ async function main() {
       capacity: 20,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/paintball.jpg",
     },
     {
       name: "Sky Adventure Individual",
@@ -192,7 +192,7 @@ async function main() {
       capacity: 1,
       waiverRequired: true,
       isPackage: false,
-      imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/sky-adventure.jpg",
     },
     {
       name: "Sky Adventure Group 5",
@@ -205,7 +205,7 @@ async function main() {
       capacity: 5,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/sky-adventure.jpg",
     },
     {
       name: "Sky Adventure Group 10",
@@ -218,7 +218,7 @@ async function main() {
       capacity: 10,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/sky-adventure.jpg",
     },
     {
       name: "SunKart Triple Pass",
@@ -230,7 +230,7 @@ async function main() {
       capacity: 1,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/triple-pass.jpg",
     },
   ];
 

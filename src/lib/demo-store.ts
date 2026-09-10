@@ -94,7 +94,7 @@ class DemoStore {
     taxRate: 0.18,
     exchangeRate: 60.00,
     demoMode: true,
-    logoUrl: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=300",
+    logoUrl: "/images/sunkart-logo.png",
     primaryColor: "#f97316",
     secondaryColor: "#0f172a",
   };
@@ -115,7 +115,7 @@ class DemoStore {
       minimumHeightCm: 145,
       waiverRequired: true,
       isPackage: false,
-      imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/gokart.jpg",
     },
     {
       id: "exp-gk-5",
@@ -132,7 +132,7 @@ class DemoStore {
       minimumHeightCm: 145,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/gokart.jpg",
     },
     {
       id: "exp-gk-10",
@@ -149,7 +149,7 @@ class DemoStore {
       minimumHeightCm: 145,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/gokart.jpg",
     },
     {
       id: "exp-pb-ind",
@@ -165,7 +165,7 @@ class DemoStore {
       minimumAge: 12,
       waiverRequired: true,
       isPackage: false,
-      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/paintball.jpg",
     },
     {
       id: "exp-pb-5",
@@ -181,7 +181,7 @@ class DemoStore {
       minimumAge: 12,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/paintball.jpg",
     },
     {
       id: "exp-pb-10",
@@ -197,7 +197,7 @@ class DemoStore {
       minimumAge: 12,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/paintball.jpg",
     },
     {
       id: "exp-pb-20",
@@ -213,7 +213,7 @@ class DemoStore {
       minimumAge: 12,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/paintball.jpg",
     },
     {
       id: "exp-sa-ind",
@@ -230,7 +230,7 @@ class DemoStore {
       minimumHeightCm: 120,
       waiverRequired: true,
       isPackage: false,
-      imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/sky-adventure.jpg",
     },
     {
       id: "exp-sa-5",
@@ -247,7 +247,7 @@ class DemoStore {
       minimumHeightCm: 120,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/sky-adventure.jpg",
     },
     {
       id: "exp-sa-10",
@@ -264,7 +264,7 @@ class DemoStore {
       minimumHeightCm: 120,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/sky-adventure.jpg",
     },
     {
       id: "exp-triple-pass",
@@ -280,7 +280,7 @@ class DemoStore {
       minimumAge: 14,
       waiverRequired: true,
       isPackage: true,
-      imageUrl: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&q=80&w=800",
+      imageUrl: "/images/experiences/triple-pass.jpg",
       activities: ["Go-Kart", "Paintball", "Sky Adventure"],
     },
   ];

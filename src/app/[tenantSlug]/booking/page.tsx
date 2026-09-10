@@ -353,6 +353,21 @@ export default function BookingPage({
                 {t("orderSummary")}
               </h3>
 
+              <div className="flex items-center gap-3 p-2.5 bg-slate-950/60 rounded-xl border border-slate-800 mb-4">
+                <img
+                  src={experience.imageUrl}
+                  alt={experience.name}
+                  className="w-14 h-14 rounded-lg object-cover border border-slate-700/80 flex-shrink-0"
+                />
+                <div className="overflow-hidden">
+                  <h4 className="font-bold text-white text-sm truncate">{experience.name}</h4>
+                  <span className="text-xs text-orange-400 font-medium block">{experience.category}</span>
+                  <span className="text-[11px] text-slate-400">
+                    {experience.participantsCount} {experience.participantsCount === 1 ? t("participantBadge") : t("participantsBadge")}
+                  </span>
+                </div>
+              </div>
+
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between text-slate-300">
                   <span>{experience.name}</span>
