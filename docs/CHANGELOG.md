@@ -1,0 +1,24 @@
+# Changelog — AdventureOS
+
+Todas las modificaciones notables y características implementadas en el sistema se documentan en este archivo.
+
+## [1.0.0] - 2026-09-10
+
+### Features
+- **Scaffolding y Configuración Base**: Monorepo con Next.js 14+ (App Router), TypeScript, Tailwind CSS, Lucide Icons y utilidades de estilo.
+- **Base de Datos y Multi-Tenancy**: Configurado `prisma/schema.prisma` con modelos para Tenants, Configuraciones, Usuarios (RBAC), Clientes, Experiencias y Paquetes VIP, Waivers y Versiones Inmutables, Órdenes, Pagos, Pases QR y Sesiones de Caja.
+- **Semilla de Datos (Seed)**: `prisma/seed.ts` con el catálogo oficial de SunKart Park Punta Cana (Go-Karts Pro 270cc, Go-Karts Junior, Paintball Combat, Zipline Canopy, Sky Adventure y Adventure Combo VIP) y usuarios demo para todos los roles.
+- **Modo Demostración Inmediato (Demo Mode)**: Implementado `src/lib/demo-store.ts` con persistencia en memoria y fallback inteligente cuando PostgreSQL local no está activo.
+- **Funnel de Reserva del Visitante**:
+  - Catálogo público con selector bilingüe (`/[tenantSlug]`).
+  - Formulario de reserva de fecha y participantes (`/booking`).
+  - Motor de Waiver Digital con firma interactiva en Canvas HTML5, auditoría forense y detección automática de menores de edad con consentimiento legal de tutor (`/waiver`).
+  - Checkout con cálculo de subtotal, ITBIS 18% y selector de método de pago ("Pagar Online" vs "Pagar en Caja") (`/checkout`).
+  - Pantalla de pasarela de pago con simulador de aprobación 3DS o tarjeta declinada (`/payment`).
+  - Confirmación con animación de confeti y emisión de voucher (`/success`).
+  - Pantalla permanente de Pase Digital con render de Código QR seguro de alta resolución (Zero PII) (`/pass/[token]`).
+- **Módulo de Caja POS (`/dashboard/cashier`)**: Búsqueda instantánea de órdenes por código, nombre o QR; calculadora de cambio de efectivo; cobro con tarjeta POS; y visor e impresión de recibo térmico en formato 80mm con media query `@media print`.
+- **Módulo de Escáner Staff (`/dashboard/scanner`)**: Interfaz para operarios de pista con prevención atómica de doble canje (*anti double-spending*) y señalización óptica gigante en verde, rojo y ámbar.
+- **Panel Administrativo (`/dashboard/admin`)**: Métricas operativas en tiempo real (Ingresos hoy, órdenes procesadas, participantes y waivers firmados) y visualización del catálogo.
+- **Pasarelas de Pago Desacopladas**: Abstracción `IPaymentProvider` con `MockPaymentProvider` y `AzulPaymentProvider` implementando el cálculo de firma criptográfica HMAC-SHA512 `AuthHash` para República Dominicana.
+- **Documentación Técnica**: Generados `docs/DATA_BASE.md` con modelo entidad-relación en Mermaid y diccionario de datos, y `docs/FUNCTIONAL_DOCS.md` con las reglas de negocio y flujos.

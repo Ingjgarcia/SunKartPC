@@ -1,0 +1,420 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ------------------------------------------------------
+// 1. MULTI-TENANCY & PLATFORM
+// ------------------------------------------------------
+
+model Tenant {
+  id          String   @id @default(uuid())
+  slug        String   @unique // e.g. "sunkart-pc"
+  name        String   // e.g. "SunKart Park Punta Cana"
+  legalName   String?  // Legal corporate name
+  taxId       String?  // RNC / Tax Identification
+  email       String?
+  phone       String?
+  address     String?
+  city        String?
+  country     String   @default("DO")
+  currency    String   @default("USD") // USD, DOP, etc.
+  timezone    String   @default("America/Santo_Domingo")
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  settings         TenantSettings?
+  users            User[]
+  customers        Customer[]
+  experiences      Experience[]
+  waivers          Waiver[]
+  orders           Order[]
+  cashierSessions  CashierSession[]
+  auditLogs        AuditLog[]
+
+  @@map("tenants")
+}
+
+model TenantSettings {
+  id                   String   @id @default(uuid())
+  tenantId             String   @unique
+  tenant               Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  logoUrl              String?
+  primaryColor         String   @default("#f97316") // Orange
+  secondaryColor       String   @default("#0f172a") // Slate
+  taxRate              Decimal  @default(0.18)      // 18% ITBIS default in DR
+  receiptFooterNote    String?  @db.Text
+  allowCashierPayLater Boolean  @default(true)
+  requireWaiverBeforePay Boolean @default(true)
+  demoMode             Boolean  @default(true)      // Mock payments vs Production
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("tenant_settings")
+}
+
+// ------------------------------------------------------
+// 2. AUTHENTICATION & USERS (RBAC)
+// ------------------------------------------------------
+
+enum Role {
+  SUPER_ADMIN
+  BUSINESS_ADMIN
+  CASHIER
+  STAFF
+}
+
+model User {
+  id            String    @id @default(uuid())
+  tenantId      String?   // null for SUPER_ADMIN platform owners
+  tenant        Tenant?   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  email         String    @unique
+  passwordHash  String
+  name          String
+  role          Role      @default(STAFF)
+  active        Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  cashierSessions CashierSession[]
+  auditLogs       AuditLog[]
+
+  @@index([tenantId, role])
+  @@map("users")
+}
+
+// ------------------------------------------------------
+// 3. EXPERIENCES & PACKAGES (PRODUCTS)
+// ------------------------------------------------------
+
+model Experience {
+  id             String          @id @default(uuid())
+  tenantId       String
+  tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  name           String
+  slug           String
+  description    String          @db.Text
+  price          Decimal         @db.Decimal(10, 2)
+  currency       String          @default("USD")
+  durationMinutes Int?
+  minimumAge     Int?
+  maximumAge     Int?
+  minimumHeightCm Int?
+  maximumHeightCm Int?
+  capacity       Int?
+  waiverRequired Boolean         @default(true)
+  active         Boolean         @default(true)
+  imageUrl       String?
+  isPackage      Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  // Package bundle items (self-relation / item breakdown)
+  packageItems   ExperienceItem[] @relation("PackageParent")
+  includedIn     ExperienceItem[] @relation("PackageComponent")
+  orderItems     OrderItem[]
+
+  @@unique([tenantId, slug])
+  @@index([tenantId, active])
+  @@map("experiences")
+}
+
+model ExperienceItem {
+  id              String     @id @default(uuid())
+  packageId       String
+  package         Experience @relation("PackageParent", fields: [packageId], references: [id], onDelete: Cascade)
+  componentId     String
+  component       Experience @relation("PackageComponent", fields: [componentId], references: [id], onDelete: Cascade)
+  quantity        Int        @default(1)
+
+  @@unique([packageId, componentId])
+  @@map("experience_items")
+}
+
+// ------------------------------------------------------
+// 4. CUSTOMERS & PARTICIPANTS
+// ------------------------------------------------------
+
+model Customer {
+  id             String    @id @default(uuid())
+  tenantId       String
+  tenant         Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  firstName      String
+  lastName       String
+  email          String
+  phone          String
+  dateOfBirth    DateTime?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  totalSpent     Decimal   @default(0.00) @db.Decimal(10, 2)
+  visitCount     Int       @default(0)
+  lastVisitAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  orders         Order[]
+  signatures     WaiverSignature[]
+
+  @@unique([tenantId, email])
+  @@index([tenantId, phone])
+  @@map("customers")
+}
+
+// ------------------------------------------------------
+// 5. WAIVER SYSTEM (IMMUTABLE AUDIT)
+// ------------------------------------------------------
+
+model Waiver {
+  id          String          @id @default(uuid())
+  tenantId    String
+  tenant      Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  title       String          // e.g. "SunKart General Activity & Karting Waiver"
+  active      Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  versions    WaiverVersion[]
+
+  @@map("waivers")
+}
+
+model WaiverVersion {
+  id          String            @id @default(uuid())
+  waiverId    String
+  waiver      Waiver            @relation(fields: [waiverId], references: [id], onDelete: Cascade)
+  versionNumber Int             @default(1) // 1, 2, 3...
+  legalText   String            @db.Text
+  language    String            @default("es") // "es", "en"
+  publishedAt DateTime          @default(now())
+  active      Boolean           @default(true)
+
+  signatures  WaiverSignature[]
+
+  @@unique([waiverId, versionNumber])
+  @@map("waiver_versions")
+}
+
+model WaiverSignature {
+  id               String        @id @default(uuid())
+  versionId        String
+  version          WaiverVersion @relation(fields: [versionId], references: [id])
+  customerId       String?
+  customer         Customer?     @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  participantName  String
+  participantDob   DateTime
+  isMinor          Boolean       @default(false)
+  
+  // Guardian details if participant is minor
+  guardianName     String?
+  guardianDob      DateTime?
+  guardianRelation String?
+  guardianEmail    String?
+  guardianPhone    String?
+
+  signatureData    String        @db.Text // Base64 Canvas data or vector SVG
+  acceptedTerms    Boolean       @default(true)
+  ipAddress        String?
+  userAgent        String?
+  signedAt         DateTime      @default(now())
+
+  participants     Participant[]
+
+  @@index([participantName, participantDob])
+  @@map("waiver_signatures")
+}
+
+// ------------------------------------------------------
+// 6. ORDERS & DIGITAL PASSES
+// ------------------------------------------------------
+
+enum OrderStatus {
+  DRAFT
+  PENDING_PAYMENT
+  PAID
+  PARTIALLY_PAID
+  CANCELLED
+  REFUNDED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PENDING
+  AUTHORIZED
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  ONLINE_CARD
+  CASHIER_CASH
+  CASHIER_CARD_POS
+  MOCK_TEST
+}
+
+model Order {
+  id             String         @id @default(uuid())
+  orderNumber    String         @unique // e.g. "SK-001042"
+  tenantId       String
+  tenant         Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  customerId     String
+  customer       Customer       @relation(fields: [customerId], references: [id])
+  
+  subtotal       Decimal        @db.Decimal(10, 2)
+  tax            Decimal        @db.Decimal(10, 2)
+  discount       Decimal        @default(0.00) @db.Decimal(10, 2)
+  total          Decimal        @db.Decimal(10, 2)
+  currency       String         @default("USD")
+
+  orderStatus    OrderStatus    @default(PENDING_PAYMENT)
+  paymentStatus  PaymentStatus  @default(UNPAID)
+  paymentMethod  PaymentMethod?
+
+  notes          String?        @db.Text
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  items          OrderItem[]
+  participants   Participant[]
+  payments       Payment[]
+  pass           DigitalPass?
+
+  @@index([tenantId, orderStatus])
+  @@index([tenantId, createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id           String     @id @default(uuid())
+  orderId      String
+  order        Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  experienceId String
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  quantity     Int        @default(1)
+  unitPrice    Decimal    @db.Decimal(10, 2)
+  totalPrice   Decimal    @db.Decimal(10, 2)
+
+  @@map("order_items")
+}
+
+model Participant {
+  id           String           @id @default(uuid())
+  orderId      String
+  order        Order            @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  fullName     String
+  isMinor      Boolean          @default(false)
+  signatureId  String?
+  signature    WaiverSignature? @relation(fields: [signatureId], references: [id], onDelete: SetNull)
+
+  @@map("participants")
+}
+
+// ------------------------------------------------------
+// 7. SECURE QR PASS & VERIFICATION
+// ------------------------------------------------------
+
+enum PassStatus {
+  VALID
+  USED
+  CANCELLED
+  REVOKED
+}
+
+model DigitalPass {
+  id             String     @id @default(uuid())
+  orderId        String     @unique
+  order          Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  passCode       String     @unique // e.g. "SK-PASS-7F82A91D"
+  securityToken  String     @unique @default(uuid()) // Opaque secure random token for QR URL
+  status         PassStatus @default(VALID)
+  usedAt         DateTime?
+  validatedBy    String?    // User ID of staff member who scanned
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@index([securityToken])
+  @@map("digital_passes")
+}
+
+// ------------------------------------------------------
+// 8. PAYMENTS & GATEWAYS
+// ------------------------------------------------------
+
+model Payment {
+  id               String        @id @default(uuid())
+  orderId          String
+  order            Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider         String        // "MOCK", "AZUL", "STRIPE", "CASH"
+  externalTxId     String?       // AZUL OrderNumber or AuthCode
+  amount           Decimal       @db.Decimal(10, 2)
+  currency         String        @default("USD")
+  status           PaymentStatus @default(PENDING)
+  rawResponse      Json?         // Gateway response payload for auditing
+  errorMessage     String?
+  cashierSessionId String?
+  cashierSession   CashierSession? @relation(fields: [cashierSessionId], references: [id], onDelete: SetNull)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([orderId])
+  @@index([externalTxId])
+  @@map("payments")
+}
+
+// ------------------------------------------------------
+// 9. CASHIER POS SESSIONS
+// ------------------------------------------------------
+
+enum SessionStatus {
+  OPEN
+  CLOSED
+}
+
+model CashierSession {
+  id           String        @id @default(uuid())
+  tenantId     String
+  tenant       Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  status       SessionStatus @default(OPEN)
+  openedAt     DateTime      @default(now())
+  closedAt     DateTime?
+  openingFloat Decimal       @default(0.00) @db.Decimal(10, 2)
+  closingFloat Decimal?      @db.Decimal(10, 2)
+  notes        String?       @db.Text
+
+  payments     Payment[]
+
+  @@index([tenantId, userId, status])
+  @@map("cashier_sessions")
+}
+
+// ------------------------------------------------------
+// 10. AUDIT LOGS & COMPLIANCE
+// ------------------------------------------------------
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  tenantId   String?
+  tenant     Tenant?  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String   // e.g. "ORDER_PAID", "PASS_VALIDATED", "WAIVER_SIGNED", "USER_LOGIN"
+  entityType String   // "Order", "Pass", "WaiverSignature", etc.
+  entityId   String
+  metadata   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([tenantId, action])
+  @@index([entityType, entityId])
+  @@map("audit_logs")
+}
