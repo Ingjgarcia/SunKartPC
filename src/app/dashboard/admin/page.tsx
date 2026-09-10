@@ -18,15 +18,26 @@ import {
 } from "lucide-react";
 
 export default function AdminDashboardPage() {
-  const [orders, setOrders] = useState<any[]>(demoStore.orders);
+  const [mounted, setMounted] = useState(false);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const tenant = demoStore.tenant;
 
   useEffect(() => {
+    setMounted(true);
     fetch("/api/orders")
       .then((r) => r.json())
       .then((d) => {
-        if (d.success) setOrders(d.data);
-      });
+        if (d.success && Array.isArray(d.data)) {
+          setOrders(d.data);
+        } else {
+          setOrders(demoStore.orders);
+        }
+      })
+      .catch(() => {
+        setOrders(demoStore.orders);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   // Compute live KPIs
@@ -85,11 +96,19 @@ export default function AdminDashboardPage() {
               </div>
             </div>
             <div className="text-3xl font-black text-white font-mono">
-              {formatCurrency(totalRevenue, "USD")}
+              {!mounted || loading ? (
+                <div className="h-9 w-32 bg-slate-800/80 animate-pulse rounded-lg my-0.5" />
+              ) : (
+                formatCurrency(totalRevenue, "USD")
+              )}
             </div>
-            <span className="text-xs text-emerald-400 font-mono block mt-1">
-              ~ {formatCurrency(convertToDop(totalRevenue), "DOP")}
-            </span>
+            <div className="text-xs text-emerald-400 font-mono mt-1 min-h-[16px]">
+              {!mounted || loading ? (
+                <div className="h-3.5 w-24 bg-slate-800/50 animate-pulse rounded my-0.5" />
+              ) : (
+                `~ ${formatCurrency(convertToDop(totalRevenue), "DOP")}`
+              )}
+            </div>
           </div>
 
           {/* Orders */}
@@ -100,10 +119,22 @@ export default function AdminDashboardPage() {
                 <ShoppingCart className="w-5 h-5" />
               </div>
             </div>
-            <div className="text-3xl font-black text-white font-mono">{orders.length}</div>
-            <span className="text-xs text-slate-400 block mt-1">
-              <strong className="text-emerald-400">{totalPaidOrders} pagadas</strong> • {totalPendingOrders} en caja
-            </span>
+            <div className="text-3xl font-black text-white font-mono">
+              {!mounted || loading ? (
+                <div className="h-9 w-16 bg-slate-800/80 animate-pulse rounded-lg my-0.5" />
+              ) : (
+                orders.length
+              )}
+            </div>
+            <div className="text-xs text-slate-400 mt-1 min-h-[16px]">
+              {!mounted || loading ? (
+                <div className="h-3.5 w-36 bg-slate-800/50 animate-pulse rounded my-0.5" />
+              ) : (
+                <>
+                  <strong className="text-emerald-400">{totalPaidOrders} pagadas</strong> • {totalPendingOrders} en caja
+                </>
+              )}
+            </div>
           </div>
 
           {/* Participants */}
@@ -114,7 +145,13 @@ export default function AdminDashboardPage() {
                 <Users className="w-5 h-5" />
               </div>
             </div>
-            <div className="text-3xl font-black text-white font-mono">{totalParticipants}</div>
+            <div className="text-3xl font-black text-white font-mono">
+              {!mounted || loading ? (
+                <div className="h-9 w-16 bg-slate-800/80 animate-pulse rounded-lg my-0.5" />
+              ) : (
+                totalParticipants
+              )}
+            </div>
             <span className="text-xs text-slate-400 block mt-1">Visitantes registrados</span>
           </div>
 
@@ -126,7 +163,13 @@ export default function AdminDashboardPage() {
                 <ShieldCheck className="w-5 h-5" />
               </div>
             </div>
-            <div className="text-3xl font-black text-white font-mono">{totalParticipants}</div>
+            <div className="text-3xl font-black text-white font-mono">
+              {!mounted || loading ? (
+                <div className="h-9 w-16 bg-slate-800/80 animate-pulse rounded-lg my-0.5" />
+              ) : (
+                totalParticipants
+              )}
+            </div>
             <span className="text-xs text-purple-400 block mt-1">100% Cumplimiento Legal</span>
           </div>
         </div>
@@ -140,7 +183,9 @@ export default function AdminDashboardPage() {
                 <BarChart3 className="w-5 h-5 text-orange-400" />
                 Historial de Órdenes Recientes
               </h2>
-              <span className="text-xs text-slate-400 font-mono">{orders.length} registros</span>
+              <span className="text-xs text-slate-400 font-mono">
+                {!mounted || loading ? "..." : `${orders.length} registros`}
+              </span>
             </div>
 
             <div className="overflow-x-auto">
@@ -155,34 +200,51 @@ export default function AdminDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800">
-                  {orders.map((ord, idx) => (
-                    <tr key={idx} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="p-3 font-mono font-bold text-white">{ord.orderNumber}</td>
-                      <td className="p-3">
-                        <span className="font-semibold block text-slate-200">
-                          {ord.customer?.firstName} {ord.customer?.lastName}
-                        </span>
-                        <span className="text-[10px] text-slate-500">{ord.customer?.phone}</span>
-                      </td>
-                      <td className="p-3 font-mono font-bold text-orange-400">
-                        {formatCurrency(ord.total, ord.currency)}
-                      </td>
-                      <td className="p-3 font-mono text-[11px] text-slate-400">
-                        {ord.paymentMethod || "MOCK"}
-                      </td>
-                      <td className="p-3">
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                            ord.paymentStatus === "PAID"
-                              ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
-                              : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                          }`}
-                        >
-                          {ord.paymentStatus === "PAID" ? "PAGADO" : "PENDIENTE"}
-                        </span>
+                  {!mounted || loading ? (
+                    <tr>
+                      <td colSpan={5} className="p-8 text-center text-slate-500 font-mono">
+                        <div className="inline-flex items-center gap-2">
+                          <div className="w-3.5 h-3.5 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+                          <span>Cargando órdenes operativas...</span>
+                        </div>
                       </td>
                     </tr>
-                  ))}
+                  ) : orders.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="p-8 text-center text-slate-500 font-mono">
+                        No hay órdenes registradas aún
+                      </td>
+                    </tr>
+                  ) : (
+                    orders.map((ord, idx) => (
+                      <tr key={ord.id || idx} className="hover:bg-slate-800/40 transition-colors">
+                        <td className="p-3 font-mono font-bold text-white">{ord.orderNumber}</td>
+                        <td className="p-3">
+                          <span className="font-semibold block text-slate-200">
+                            {ord.customer?.firstName} {ord.customer?.lastName}
+                          </span>
+                          <span className="text-[10px] text-slate-500">{ord.customer?.phone}</span>
+                        </td>
+                        <td className="p-3 font-mono font-bold text-orange-400">
+                          {formatCurrency(ord.total, ord.currency)}
+                        </td>
+                        <td className="p-3 font-mono text-[11px] text-slate-400">
+                          {ord.paymentMethod || "MOCK"}
+                        </td>
+                        <td className="p-3">
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                              ord.paymentStatus === "PAID"
+                                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                                : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                            }`}
+                          >
+                            {ord.paymentStatus === "PAID" ? "PAGADO" : "PENDIENTE"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
