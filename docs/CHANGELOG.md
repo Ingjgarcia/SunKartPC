@@ -36,4 +36,9 @@ Todas las modificaciones notables y características implementadas en el sistema
   - Optimización responsiva para dispositivos móviles compactos (< 400px) en la barra de acción flotante del catálogo con etiqueta adaptable.
   - Blindaje defensivo en el formulario de participantes de reserva (`booking/page.tsx`) asegurando que accesos al índice primario no produzcan excepciones de tipo.
 - **Sincronización de Barra de Acción Flotante e Inline**: Resuelta la duplicidad visual donde el banner destacado de paquete seleccionado y la barra flotante fija inferior se renderizaban simultáneamente en pantalla. Se implementó detección reactiva de intersección (`IntersectionObserver`) de modo que la barra flotante inferior se oculta suavemente (`translate-y-full opacity-0`) siempre que el panel principal esté en el viewport, mostrándose únicamente cuando el usuario se desplaza fuera de su alcance.
+- **Preparación y Optimización para Despliegue en Vercel**:
+  - Incorporado archivo `vercel.json` con comando de compilación unificado (`prisma generate && next build`).
+  - Configurado `prisma/schema.prisma` con `binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]` para compatibilidad nativa con los entornos serverless de AWS Lambda / Debian Linux en Vercel.
+  - Agregado hook de script `"postinstall": "prisma generate"` en `package.json` para garantizar la regeneración del cliente Prisma tras la instalación de dependencias en los pipelines de Vercel.
+  - Actualizada la plantilla `.env.example` con guía explicativa para integración de Neon Serverless Postgres y variables de pasarela de pago.
 
