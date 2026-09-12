@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { demoStore } from "@/lib/demo-store";
 import { formatCurrency, convertToDop } from "@/lib/formatters";
@@ -18,6 +18,38 @@ export default function TenantCatalogPage({
 
   const [selectedExpId, setSelectedExpId] = useState<string>(experiences[0]?.id || "");
   const selectedExp = experiences.find((e) => e.id === selectedExpId) || experiences[0];
+
+  const [isBannerVisible, setIsBannerVisible] = useState(false);
+  const bannerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = bannerRef.current;
+    if (!el) return;
+
+    // Check visibility immediately on mount/selection
+    const checkVisibility = () => {
+      const rect = el.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      setIsBannerVisible(inView);
+    };
+
+    checkVisibility();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsBannerVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.15,
+      }
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [selectedExpId]);
 
   return (
     <div className="min-h-screen bg-slate-950 pb-28">
@@ -119,7 +151,10 @@ export default function TenantCatalogPage({
 
         {/* Selected Package Action Banner */}
         {selectedExp && (
-          <div className="mt-8 bg-gradient-to-r from-slate-900 via-slate-900 to-[#141b29] border-2 border-orange-500/60 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-orange-500/10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div
+            ref={bannerRef}
+            className="mt-8 bg-gradient-to-r from-slate-900 via-slate-900 to-[#141b29] border-2 border-orange-500/60 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-orange-500/10 flex flex-col md:flex-row items-center justify-between gap-6"
+          >
             <div className="flex items-center gap-5 w-full md:w-auto">
               <img
                 src={selectedExp.imageUrl}
@@ -170,9 +205,15 @@ export default function TenantCatalogPage({
         )}
       </section>
 
-      {/* Floating Sticky Bottom Bar for instant Continue on mobile/scroll */}
+      {/* Floating Sticky Bottom Bar: Only visible when main banner is outside the viewport */}
       {selectedExp && (
-        <div className="fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-3 sm:p-4 shadow-2xl">
+        <div
+          className={`fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-3 sm:p-4 shadow-2xl transition-all duration-300 transform ${
+            !isBannerVisible
+              ? "translate-y-0 opacity-100 pointer-events-auto"
+              : "translate-y-full opacity-0 pointer-events-none"
+          }`}
+        >
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 overflow-hidden">
               <img

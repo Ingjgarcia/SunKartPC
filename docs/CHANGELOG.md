@@ -35,4 +35,5 @@ Todas las modificaciones notables y características implementadas en el sistema
   - Verificación de disponibilidad y respuesta HTTP 200 en todas las rutas operativas (`/[tenantSlug]`, `/booking`, `/dashboard/admin`, `/dashboard/cashier`, `/dashboard/scanner`, `/login`).
   - Optimización responsiva para dispositivos móviles compactos (< 400px) en la barra de acción flotante del catálogo con etiqueta adaptable.
   - Blindaje defensivo en el formulario de participantes de reserva (`booking/page.tsx`) asegurando que accesos al índice primario no produzcan excepciones de tipo.
+- **Sincronización de Barra de Acción Flotante e Inline**: Resuelta la duplicidad visual donde el banner destacado de paquete seleccionado y la barra flotante fija inferior se renderizaban simultáneamente en pantalla. Se implementó detección reactiva de intersección (`IntersectionObserver`) de modo que la barra flotante inferior se oculta suavemente (`translate-y-full opacity-0`) siempre que el panel principal esté en el viewport, mostrándose únicamente cuando el usuario se desplaza fuera de su alcance.
 
