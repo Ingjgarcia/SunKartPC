@@ -105,38 +105,24 @@ graph TD
 
 ## 5. Propuesta Económica y Opciones de Inversión
 
-Presentamos tres esquemas comerciales claros, sin costos ocultos, estructurados para adaptarse al modelo financiero y flujo de caja de su complejo:
+Presentamos dos esquemas comerciales claros, sin costos ocultos, estructurados para adaptarse al modelo financiero y flujo de caja de su complejo:
 
 ### 5.1. Comparativa de Planes y Precios
 
-| Concepto / Módulo | Opción A: Plan Cloud SaaS *(Recomendado)* | Opción B: Licencia Empresarial *(Propiedad)* | Opción C: Llave en Mano *(Software + Hardware)* |
-| :--- | :---: | :---: | :---: |
-| **Cuota de Implementación & Setup Inicial** *(Pago único)* | **US$ 1,200** *(~RD$ 72,000)* | **US$ 6,800** *(~RD$ 408,000)* | **US$ 2,520** *(~RD$ 151,200)* |
-| **Cuota de Servicio Mensual** | **US$ 290 / mes** *(~RD$ 17,400)* | **US$ 0 / mes** | **US$ 290 / mes** *(~RD$ 17,400)* |
-| **Comisión por Venta Web Online** | **1.9%** sobre ventas online | **0%** *(Cero comisiones)* | **1.9%** sobre ventas online |
-| **Comisión por Ventas en Taquilla Física (POS)** | **0%** *(Totalmente gratis)* | **0%** *(Totalmente gratis)* | **0%** *(Totalmente gratis)* |
-| **Pases Digitales QR y Waivers** | Ilimitados | Ilimitados | Ilimitados |
-| **Usuarios y Cajas POS** | Ilimitados | Ilimitados | Ilimitados |
-| **Servidores Cloud, SSL y Base de Datos** | Incluido (Vercel / Neon) | Gestionado por el cliente | Incluido (Vercel / Neon) |
-| **Equipamiento Físico (Hardware)** | No incluido (usa sus equipos) | No incluido | **Incluido (Kit Completo)** |
-| **Propiedad del Código Fuente** | No (Licencia por uso) | **Sí (Código entregado)** | No (Licencia por uso) |
-| **Soporte Técnico y Actualizaciones** | 24/7 Continuo incluido | 90 días incluidos (luego opcional) | 24/7 Continuo incluido |
+| Concepto / Módulo | Opción A: Plan Cloud SaaS *(Recomendado)* | Opción B: Licencia Empresarial *(Propiedad)* |
+| :--- | :---: | :---: |
+| **Cuota de Implementación & Setup Inicial** *(Pago único)* | **US$ 1,200** *(~RD$ 72,000)* | **US$ 6,800** *(~RD$ 408,000)* |
+| **Cuota de Servicio Mensual** | **US$ 290 / mes** *(~RD$ 17,400)* | **US$ 0 / mes** |
+| **Pases Digitales QR y Waivers** | Ilimitados | Ilimitados |
+| **Usuarios y Cajas POS** | Ilimitados | Ilimitados |
+| **Servidores Cloud, SSL y Base de Datos** | Incluido | Gestionado por el cliente |
+| **Equipamiento Físico (Hardware)** | No incluido | No incluido |
+| **Propiedad del Código Fuente** | No (Licencia por uso) | **Sí (Código entregado)** |
+| **Soporte Técnico y Actualizaciones** | 24/7 Continuo incluido | 90 días incluidos (luego opcional) |
 
 ---
 
-### 5.2. Desglose del Kit de Hardware Opcional (Opción C)
-Si su parque no dispone de dispositivos dedicados en recepción y pista, podemos suministrar e instalar el equipamiento homologado y probado:
-
-| Dispositivo | Cantidad | Descripción Técnica | Inversión Estimada |
-| :--- | :---: | :--- | :---: |
-| **Estación Kiosco de Firma de Waivers** | 2 unidades | Tablets Samsung Galaxy Tab A9+ 11" con funda de alto impacto y soporte antirrobo con cerradura de seguridad para mostrador. | US$ 650 *(~RD$ 39,000)* |
-| **Escáner Óptico de Pista 2D** | 2 unidades | Lectores inalámbricos Bluetooth/2.4G de uso rudo resistentes a caídas y salpicaduras con gatillo ergonómico y lectura solar. | US$ 280 *(~RD$ 16,800)* |
-| **Impresora Térmica POS Taquilla** | 2 unidades | Impresoras térmicas de 80mm de alta velocidad (250 mm/s) con autocorte automático e interfaz USB/Ethernet. | US$ 390 *(~RD$ 23,400)* |
-| **Total Inversión Equipamiento Físico** | — | **Kit de Taquilla y Pista Completo y Configurado** | **US$ 1,320** *(~RD$ 79,200)* |
-
----
-
-### 5.3. Análisis de Retorno de Inversión (ROI Mensual): ¿Por qué la solución se paga sola?
+### 5.2. Análisis de Retorno de Inversión (ROI Mensual): ¿Por qué la solución se paga sola?
 
 Con un flujo moderado de 800 a 1,500 visitantes al mes, el ahorro directo y la recuperación de ingresos superan con holgura la inversión:
 
@@ -152,7 +138,7 @@ Con un flujo moderado de 800 a 1,500 visitantes al mes, el ahorro directo y la r
 
 ---
 
-### 5.4. Condiciones Comerciales y Forma de Pago
+### 5.3. Condiciones Comerciales y Forma de Pago
 
 - **Moneda de Cotización**: Valores expresados en Dólares Estadounidenses (USD) o pagaderos en Pesos Dominicanos (DOP) calculados a la tasa de cambio oficial del Banco Central de la República Dominicana al momento de la facturación.
 - **Forma de Pago de Implementación**:
