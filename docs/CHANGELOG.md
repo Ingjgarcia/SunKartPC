@@ -41,4 +41,5 @@ Todas las modificaciones notables y características implementadas en el sistema
   - Configurado `prisma/schema.prisma` con `binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]` para compatibilidad nativa con los entornos serverless de AWS Lambda / Debian Linux en Vercel.
   - Agregado hook de script `"postinstall": "prisma generate"` en `package.json` para garantizar la regeneración del cliente Prisma tras la instalación de dependencias en los pipelines de Vercel.
   - Actualizada la plantilla `.env.example` con guía explicativa para integración de Neon Serverless Postgres y variables de pasarela de pago.
+  - Añadido soporte para `directUrl = env("DIRECT_URL")` en `prisma/schema.prisma` para separar la conexión con pooler (PgBouncer para serverless en Vercel) de la conexión directa sin pooler (para migraciones y CLI sin bloqueos de prepared statements).
 
