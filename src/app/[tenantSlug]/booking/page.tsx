@@ -277,7 +277,7 @@ export default function BookingPage({
                       value={firstName}
                       onChange={(e) => {
                         setFirstName(e.target.value);
-                        if (!participants[0].fullName) {
+                        if (participants && participants[0] && !participants[0].fullName) {
                           handleParticipantChange(0, "fullName", `${e.target.value} ${lastName}`.trim());
                         }
                       }}
@@ -293,7 +293,9 @@ export default function BookingPage({
                       value={lastName}
                       onChange={(e) => {
                         setLastName(e.target.value);
-                        handleParticipantChange(0, "fullName", `${firstName} ${e.target.value}`.trim());
+                        if (participants && participants[0]) {
+                          handleParticipantChange(0, "fullName", `${firstName} ${e.target.value}`.trim());
+                        }
                       }}
                       className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
                       required

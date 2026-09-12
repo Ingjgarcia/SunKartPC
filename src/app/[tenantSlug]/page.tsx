@@ -198,9 +198,10 @@ export default function TenantCatalogPage({
 
             <Link
               href={`/${params.tenantSlug}/booking?exp=${selectedExp.id}`}
-              className="px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm shadow-lg shadow-orange-500/25 flex items-center gap-2 flex-shrink-0 transition-all hover:scale-[1.02]"
+              className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-orange-500/25 flex items-center gap-2 flex-shrink-0 transition-all hover:scale-[1.02]"
             >
-              <span>{t("continueToBookingBtn")}</span>
+              <span className="hidden sm:inline">{t("continueToBookingBtn")}</span>
+              <span className="sm:hidden">Continuar</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
