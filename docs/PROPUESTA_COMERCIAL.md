@@ -103,27 +103,63 @@ graph TD
 
 ---
 
-## 5. Modalidades de Adquisición y Precios
+## 5. Propuesta Económica y Opciones de Inversión
 
-Diseñamos esquemas comerciales adaptados al tamaño y estrategia de su parque:
+Presentamos tres esquemas comerciales claros, sin costos ocultos, estructurados para adaptarse al modelo financiero y flujo de caja de su complejo:
 
-### Opción 1: Plan Cloud Gestionado (SaaS)
-*La opción recomendada para comenzar de inmediato con mínima inversión inicial.*
-- **Incluye**: Alojamiento en servidores cloud de alta velocidad (Vercel / AWS), base de datos redundante, certificados SSL, actualizaciones continuas y soporte técnico prioritario.
-- **Costo de Activación**: Tarifa única de configuración, parametrización de catálogo, diseño con sus logotipos y capacitación de personal.
-- **Mensualidad de Servicio**: Cuota mensual fija + porcentaje mínimo por transacción online procesada.
+### 5.1. Comparativa de Planes y Precios
 
-### Opción 2: Licencia Empresarial (Propiedad del Software)
-*Para parques o cadenas que desean tener el software como un activo propio de la empresa.*
-- **Incluye**: Entrega y despliegue del software en su propia infraestructura en la nube o servidores locales, sin comisiones por transacción.
-- **Personalización Exclusiva**: Adaptación a la medida de los flujos de su parque.
-- **Garantía y Póliza de Mantenimiento Anual** opcional.
+| Concepto / Módulo | Opción A: Plan Cloud SaaS *(Recomendado)* | Opción B: Licencia Empresarial *(Propiedad)* | Opción C: Llave en Mano *(Software + Hardware)* |
+| :--- | :---: | :---: | :---: |
+| **Cuota de Implementación & Setup Inicial** *(Pago único)* | **US$ 1,200** *(~RD$ 72,000)* | **US$ 6,800** *(~RD$ 408,000)* | **US$ 2,520** *(~RD$ 151,200)* |
+| **Cuota de Servicio Mensual** | **US$ 290 / mes** *(~RD$ 17,400)* | **US$ 0 / mes** | **US$ 290 / mes** *(~RD$ 17,400)* |
+| **Comisión por Venta Web Online** | **1.9%** sobre ventas online | **0%** *(Cero comisiones)* | **1.9%** sobre ventas online |
+| **Comisión por Ventas en Taquilla Física (POS)** | **0%** *(Totalmente gratis)* | **0%** *(Totalmente gratis)* | **0%** *(Totalmente gratis)* |
+| **Pases Digitales QR y Waivers** | Ilimitados | Ilimitados | Ilimitados |
+| **Usuarios y Cajas POS** | Ilimitados | Ilimitados | Ilimitados |
+| **Servidores Cloud, SSL y Base de Datos** | Incluido (Vercel / Neon) | Gestionado por el cliente | Incluido (Vercel / Neon) |
+| **Equipamiento Físico (Hardware)** | No incluido (usa sus equipos) | No incluido | **Incluido (Kit Completo)** |
+| **Propiedad del Código Fuente** | No (Licencia por uso) | **Sí (Código entregado)** | No (Licencia por uso) |
+| **Soporte Técnico y Actualizaciones** | 24/7 Continuo incluido | 90 días incluidos (luego opcional) | 24/7 Continuo incluido |
 
-### Opción 3: Proyecto Integral "Llave en Mano" (Software + Hardware)
-- Software AdventureOS instalado y configurado.
-- Tablets con soporte de seguridad para estación de waivers en recepción.
-- Escáneres ópticos 2D de alta velocidad para operarios de pista.
-- Impresoras térmicas de 80mm de alta durabilidad para taquilla.
+---
+
+### 5.2. Desglose del Kit de Hardware Opcional (Opción C)
+Si su parque no dispone de dispositivos dedicados en recepción y pista, podemos suministrar e instalar el equipamiento homologado y probado:
+
+| Dispositivo | Cantidad | Descripción Técnica | Inversión Estimada |
+| :--- | :---: | :--- | :---: |
+| **Estación Kiosco de Firma de Waivers** | 2 unidades | Tablets Samsung Galaxy Tab A9+ 11" con funda de alto impacto y soporte antirrobo con cerradura de seguridad para mostrador. | US$ 650 *(~RD$ 39,000)* |
+| **Escáner Óptico de Pista 2D** | 2 unidades | Lectores inalámbricos Bluetooth/2.4G de uso rudo resistentes a caídas y salpicaduras con gatillo ergonómico y lectura solar. | US$ 280 *(~RD$ 16,800)* |
+| **Impresora Térmica POS Taquilla** | 2 unidades | Impresoras térmicas de 80mm de alta velocidad (250 mm/s) con autocorte automático e interfaz USB/Ethernet. | US$ 390 *(~RD$ 23,400)* |
+| **Total Inversión Equipamiento Físico** | — | **Kit de Taquilla y Pista Completo y Configurado** | **US$ 1,320** *(~RD$ 79,200)* |
+
+---
+
+### 5.3. Análisis de Retorno de Inversión (ROI Mensual): ¿Por qué la solución se paga sola?
+
+Con un flujo moderado de 800 a 1,500 visitantes al mes, el ahorro directo y la recuperación de ingresos superan con holgura la inversión:
+
+| Concepto de Ahorro / Recuperación | Cálculo Estimado Mensual | Retorno Estimado para su Parque |
+| :--- | :--- | :---: |
+| **Ahorro en papel, tóner y archivadores de waivers** | ~1,200 hojas impresas, carpetas y tiempo de archivo manual | **+ US$ 350 / mes** |
+| **Eliminación de fraude y boletos duplicados en pista** | Recuperación de un 2% de entradas filtradas por reingresos no controlados | **+ US$ 720 / mes** |
+| **Incremento en ticket promedio por venta online previa** | Paquetes cerrados grupales (*Crew 5*, *Triple Pass*) comprados con anticipación | **+ US$ 1,100 / mes** |
+| **Reducción de personal extra en taquilla en horas pico** | Descongestión del 90% de la fila mediante pre-check-in digital | **+ US$ 400 / mes** |
+| **Beneficio Neto Mensual Estimado** | Ingresos adicionales y ahorros generados | **+ US$ 2,570 / mes** |
+| **Costo del Software (Plan SaaS)** | Cuota de servicio mensual | **- US$ 290 / mes** |
+| **Ganancia Neta Mensual para su Parque** | **Retorno Positivo desde el Mes 1** | **+ US$ 2,280 / mes** |
+
+---
+
+### 5.4. Condiciones Comerciales y Forma de Pago
+
+- **Moneda de Cotización**: Valores expresados en Dólares Estadounidenses (USD) o pagaderos en Pesos Dominicanos (DOP) calculados a la tasa de cambio oficial del Banco Central de la República Dominicana al momento de la facturación.
+- **Forma de Pago de Implementación**:
+  - **50% de Anticipo**: A la firma de la orden de servicio y entrega del cronograma de despliegue.
+  - **50% Restante**: Contra entrega del sistema en vivo y finalización de la capacitación del personal (Fase 4).
+- **Validez de la Oferta**: Esta cotización económica se mantiene garantizada por **30 días calendario** a partir de la fecha de entrega.
+- **Garantía de Satisfacción Operativa**: Incluye acompañamiento técnico presencial o remoto dedicado durante el primer fin de semana completo de operación con público para garantizar cero incidencias en taquilla y pista.
 
 ---
 
