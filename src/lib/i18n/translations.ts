@@ -34,8 +34,13 @@ export const translations = {
     minHeightLabel: "Min.",
     waiverRequiredBadge: "Waiver Requerido",
     includesTitle: "Incluye:",
-    bookButton: "Reservar",
+    bookButton: "Seleccionar",
     perPerson: "/ paquete",
+    selectedPackageHeader: "Paquete Seleccionado",
+    changePackageBtn: "Cambiar paquete",
+    hidePackageListBtn: "Ocultar opciones",
+    continueToBookingBtn: "Continuar a Registro de Participantes",
+    step1SelectInstruction: "Haz clic en una experiencia para marcarla y luego pulsa 'Continuar'",
 
 
     // Experience Items in English & Spanish
@@ -202,8 +207,13 @@ Al firmar este documento electrónico, declaro de manera libre, voluntaria e inf
     minHeightLabel: "Min.",
     waiverRequiredBadge: "Waiver Required",
     includesTitle: "Includes:",
-    bookButton: "Book Now",
+    bookButton: "Select",
     perPerson: "/ package",
+    selectedPackageHeader: "Selected Package",
+    changePackageBtn: "Change package",
+    hidePackageListBtn: "Hide options",
+    continueToBookingBtn: "Continue to Staff & Participants Roster",
+    step1SelectInstruction: "Click on any experience to select it, then click 'Continue'",
 
 
     // Experience Items

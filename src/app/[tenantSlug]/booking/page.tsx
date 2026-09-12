@@ -19,6 +19,7 @@ export default function BookingPage({
   const selectedExpId = searchParams.get("exp") || demoStore.experiences[0].id;
 
   const [experience, setExperience] = useState<DemoExperience | null>(null);
+  const [showPackagePicker, setShowPackagePicker] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [bookingDate, setBookingDate] = useState(new Date().toISOString().split("T")[0]);
 
@@ -135,17 +136,17 @@ export default function BookingPage({
           <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
             <span className="text-orange-400 font-bold flex items-center gap-1.5">
               <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px]">1</span>
-              {t("stepParticipants")}
+              <span>1. {t("stepParticipants")}</span>
             </span>
             <span className="text-slate-600">———</span>
             <span className="flex items-center gap-1.5 text-slate-500">
               <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-[10px]">2</span>
-              {t("stepWaiver")}
+              <span>2. {t("stepWaiver")}</span>
             </span>
             <span className="text-slate-600">———</span>
             <span className="flex items-center gap-1.5 text-slate-500">
               <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-[10px]">3</span>
-              {t("stepCheckout")}
+              <span>3. {t("stepCheckout")}</span>
             </span>
           </div>
         </div>
@@ -154,61 +155,108 @@ export default function BookingPage({
           {/* Main Booking Form */}
           <div className="lg:col-span-2 space-y-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* 1. Choose your experience */}
-              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
-                <div className="mb-4">
-                  <h2 className="text-xl font-black text-white tracking-tight">
-                    {t("chooseExperienceTitle")}
-                  </h2>
-                  <p className="text-xs text-slate-400 mt-1">
-                    {t("chooseExperienceSubtitle")}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                  {demoStore.experiences.map((exp) => {
-                    const isSelected = experience.id === exp.id;
-                    return (
-                      <div
-                        key={exp.id}
-                        onClick={() => handleSelectExperience(exp)}
-                        className={`p-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col justify-between select-none ${
-                          isSelected
-                            ? "border-orange-500 bg-orange-500/10 shadow-lg shadow-orange-500/15 ring-2 ring-orange-500/20"
-                            : "border-slate-800 bg-slate-950/80 hover:border-slate-700 hover:bg-slate-950"
-                        }`}
-                      >
-                        <div>
-                          <h3 className="font-bold text-white text-sm tracking-tight">{exp.name}</h3>
-                          <div className="text-2xl font-black text-orange-500 font-mono my-1.5">
-                            {formatCurrency(exp.price, "USD")}
-                          </div>
-                          <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-800/90 text-[11px] font-medium text-slate-300 w-fit mb-3">
-                            {exp.participantsCount} {exp.participantsCount === 1 ? t("participantBadge") : t("participantsBadge")}
-                          </div>
-                        </div>
-                        <div className="text-[11px] text-slate-400 font-medium pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                          <span>{exp.category}</span>
-                          {isSelected && <span className="text-orange-400 font-bold text-xs">✓</span>}
-                        </div>
+              {/* Selected Package Header with quick change toggle */}
+              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={experience.imageUrl}
+                      alt={experience.name}
+                      className="w-16 h-16 rounded-xl object-cover border border-slate-700 shadow-md flex-shrink-0"
+                    />
+                    <div>
+                      <span className="text-[11px] font-bold text-orange-400 uppercase tracking-wider block">
+                        {t("selectedPackageHeader")}
+                      </span>
+                      <h2 className="text-lg sm:text-xl font-black text-white tracking-tight">
+                        {experience.name}
+                      </h2>
+                      <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
+                        <span className="text-slate-300 font-medium">{experience.category}</span>
+                        <span>•</span>
+                        <span>
+                          {experience.participantsCount}{" "}
+                          {experience.participantsCount === 1 ? t("participantBadge") : t("participantsBadge")}
+                        </span>
                       </div>
-                    );
-                  })}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center sm:flex-col sm:items-end justify-between gap-2">
+                    <div className="text-left sm:text-right">
+                      <span className="font-mono font-black text-2xl text-orange-500 block">
+                        {formatCurrency(unitPrice, "USD")}
+                      </span>
+                      <span className="text-[10px] text-emerald-400 font-medium">
+                        ITBIS (18%) incluido
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowPackagePicker(!showPackagePicker)}
+                      className="text-xs text-slate-400 hover:text-orange-400 font-semibold underline underline-offset-4 transition-colors"
+                    >
+                      {showPackagePicker ? t("hidePackageListBtn") : t("changePackageBtn")}
+                    </button>
+                  </div>
                 </div>
 
-                {/* Visit Date */}
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 uppercase mb-1.5">
-                    {t("visitDate")}
-                  </label>
-                  <input
-                    type="date"
-                    value={bookingDate}
-                    onChange={(e) => setBookingDate(e.target.value)}
-                    className="w-full h-12 bg-slate-950 border border-slate-700 rounded-xl px-4 text-white text-sm focus:outline-none focus:border-orange-500"
-                    required
-                  />
-                </div>
+                {/* Optional Expanded Package Selector */}
+                {showPackagePicker && (
+                  <div className="mt-5 pt-2">
+                    <span className="text-xs text-slate-400 block mb-3 font-medium">
+                      {t("chooseExperienceSubtitle")}
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                      {demoStore.experiences.map((exp) => {
+                        const isSelected = experience.id === exp.id;
+                        return (
+                          <div
+                            key={exp.id}
+                            onClick={() => {
+                              handleSelectExperience(exp);
+                              setShowPackagePicker(false);
+                            }}
+                            className={`p-3.5 rounded-xl border-2 transition-all cursor-pointer flex flex-col justify-between select-none ${
+                              isSelected
+                                ? "border-orange-500 bg-orange-500/10 shadow-md shadow-orange-500/15 ring-2 ring-orange-500/20"
+                                : "border-slate-800 bg-slate-950/80 hover:border-slate-700 hover:bg-slate-950"
+                            }`}
+                          >
+                            <div>
+                              <h3 className="font-bold text-white text-xs tracking-tight">{exp.name}</h3>
+                              <div className="text-lg font-black text-orange-500 font-mono my-1">
+                                {formatCurrency(exp.price, "USD")}
+                              </div>
+                              <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-slate-800/90 text-[10px] font-medium text-slate-300 w-fit mb-2">
+                                {exp.participantsCount} {exp.participantsCount === 1 ? t("participantBadge") : t("participantsBadge")}
+                              </div>
+                            </div>
+                            <div className="text-[10px] text-slate-400 font-medium pt-1.5 border-t border-slate-800/80 flex items-center justify-between">
+                              <span>{exp.category}</span>
+                              {isSelected && <span className="text-orange-400 font-bold">✓</span>}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 1. Visit Date */}
+              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
+                <h2 className="text-base font-bold text-white flex items-center gap-2 mb-3">
+                  <Calendar className="w-5 h-5 text-orange-400" />
+                  <span>1. {t("visitDate")}</span>
+                </h2>
+                <input
+                  type="date"
+                  value={bookingDate}
+                  onChange={(e) => setBookingDate(e.target.value)}
+                  className="w-full h-12 bg-slate-950 border border-slate-700 rounded-xl px-4 text-white text-sm focus:outline-none focus:border-orange-500"
+                  required
+                />
               </div>
 
 

@@ -26,9 +26,11 @@ Plataforma SaaS multi-empresa diseñada para la gestión comercial y operativa i
   - Precios duales en tiempo real: Dólares Americanos (USD) y Pesos Dominicanos (DOP) calculados según la tasa de cambio del tenant.
   - Registro anticipado de nombres y fechas de nacimiento de cada participante acorde a la capacidad del paquete.
 - **Reglas de Negocio**:
-  - El usuario puede cambiar de paquete directamente desde el embudo de reservas con un selector interactivo en tarjetas idénticas al catálogo.
+  - En el catálogo público, hacer clic sobre una tarjeta de experiencia la marca como seleccionada (borde y anillo naranja) sin abandonar la vista de forma inmediata; el paso al registro de participantes se produce exclusivamente tras presionar el botón explícito `"Continuar"`.
   - La cantidad de participantes se deriva estrictamente del paquete seleccionado (1, 5, 10 o 20 participantes).
+  - En la vista de reserva, se presenta un encabezado compacto del paquete seleccionado con opción colapsable para cambiarlo si el usuario lo desea.
   - No se permite reservar sin definir todos los participantes requeridos por el paquete con nombre y fecha de nacimiento.
+  - El avance hacia el Waiver Digital y posterior Pago requiere la pulsación deliberada del botón `"Continuar al Waiver Legal"`, evitando saltos directos no deseados al pago.
   - La fecha de visita no puede ser anterior al día en curso.
   - El sistema calcula automáticamente si un participante es menor de edad (< 18 años).
 
