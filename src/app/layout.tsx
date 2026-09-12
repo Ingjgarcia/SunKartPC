@@ -5,6 +5,11 @@ import { SessionProvider } from "@/components/SessionProvider";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXTAUTH_URL && process.env.NEXTAUTH_URL.trim() !== ""
+      ? process.env.NEXTAUTH_URL
+      : "https://sunkart-pc.vercel.app"
+  ),
   title: "SunKart Park Punta Cana | AdventureOS Management Platform",
   description:
     "Plataforma integral de venta de experiencias, reservas de go-karts, waivers digitales con firma electrónica, pagos online/caja y control de acceso con QR para parques de aventura.",
