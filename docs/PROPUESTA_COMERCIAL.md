@@ -1,136 +1,153 @@
-# Propuesta Comercial & Ficha de Producto: AdventureOS
-## Plataforma Integral de Gestión, Venta y Control de Acceso para Parques de Aventura, Go-Karts y Centros Recreativos
+# Propuesta Comercial: Modernización, Ventas Online y Control Operativo
+## Solución Integral AdventureOS para Parques de Aventura, Go-Karts y Complejos Recreativos
+
+> **Preparado para:** Dirección General, Gerencia de Operaciones y Dirección Financiera  
+> **Asunto:** Propuesta de Implementación de Plataforma Tecnológica Integral (Ventas Online + Waivers Digitales + POS Taquilla + Control de Acceso Anti-Fraude)
 
 ---
 
-## 1. Resumen Ejecutivo (Executive Summary)
+### Estimado(a) Director(a) / Propietario(a):
 
-**AdventureOS** es una solución tecnológica integral de grado empresarial diseñada específicamente para modernizar, automatizar y maximizar la rentabilidad de parques de diversiones, circuitos de go-karts, campos de paintball, parques de tirolesa y centros de entretenimiento de alto tráfico.
+Gestionar un centro recreativo de alta afluencia como el suyo presenta desafíos diarios muy específicos: **filas lentas en taquilla que frustran a los clientes, cientos de hojas de papel de descargos de responsabilidad (*waivers*) difíciles de archivar y validar ante un reclamo legal, reingresos no controlados de boletos en pista, y descuadres de caja entre pagos en efectivo y terminales bancarias.**
 
-La plataforma resuelve de raíz los tres mayores cuellos de botella de la industria recreativa:
-1. **Pérdida de ventas por procesos manuales**: Catálogo online optimizado para conversión con reservas anticipadas y pagos inmediatos.
-2. **Filas y congestión en taquilla**: Registro anticipado de participantes, emisión de pases digitales QR y exenciones de responsabilidad (*waivers*) 100% digitales.
-3. **Riesgo legal y fraude operativo**: Control criptográfico anti-reutilización de entradas (*anti double-spending*), firma electrónica legal inmutable y cuadre ciego de cajas de punto de venta (POS).
+**AdventureOS** fue concebido y desarrollado para solucionar de manera definitiva estos dolores operativos. 
+
+Le presentamos una plataforma moderna, probada y lista para operar, diseñada para **multiplicar sus ventas anticipadas por internet, reducir en un 90% el tiempo de atención en recepción y blindar legal y financieramente cada metro de su operación.**
+
+---
+
+## 1. El Impacto en su Negocio: ¿Por qué implementar AdventureOS hoy?
+
+```mermaid
+graph LR
+    subgraph "Antes (Operación Tradicional)"
+        A1["Filas de 10-15 min en Taquilla"]
+        A2["Archivadores de Papel con Waivers"]
+        A3["Riesgo de Boletos Duplicados"]
+        A4["Venta Online Limitada o Inexistente"]
+    end
+    subgraph "Con AdventureOS"
+        B1["Ingreso en 45 Segundos con QR"]
+        B2["Waivers Digitales 100% Auditables"]
+        B3["Escáner Anti-Fraude Atómico"]
+        B4["Venta Web 24/7 con Pago Directo a su Banco"]
+    end
+    A1 -->|Transformación| B1
+    A2 -->|Transformación| B2
+    A3 -->|Transformación| B3
+    A4 -->|Transformación| B4
+```
+
+| Desafío Actual en su Parque | Cómo lo Resuelve AdventureOS | Beneficio Económico Directo |
+| :--- | :--- | :--- |
+| **Pérdida de clientes por filas largas en taquilla** | Los clientes compran online, eligen su horario y firman el waiver desde su celular antes de llegar al parque. | **Aumento de ventas**: Clientes que antes se desanimaban por la fila ahora compran con anticipación. |
+| **Costo y riesgo legal de waivers en papel** | Firma electrónica en pantalla (móvil o tablet kiosco) con registro forense inmutable (IP, fecha y hora exacta, tutor para menores). | **Cero gasto en papel** y tranquilidad total respaldada ante aseguradoras y litigios legales. |
+| **Boletos compartidos o fotocopiados en pista** | Pases digitales con código QR de un solo uso validado atómicamente por los operarios con semáforo óptico instantáneo. | **Cero filtraciones**: Nadie entra a una carrera o actividad sin que el sistema valide el pago. |
+| **Descuadres en caja al final del turno** | Módulo de Punto de Venta (POS) con apertura formal de fondo de caja (*opening float*), calculadora de cambio y arqueo ciego. | **Control total del dinero**: Cada peso y dólar queda registrado y cuadrado por cajero. |
+
+---
+
+## 2. La Experiencia para sus Visitantes (Vender más y mejor)
+
+Su cliente no quiere llenar formularios en un mostrador; quiere divertirse. AdventureOS le ofrece una experiencia de compra de primer nivel:
+
+1. **Catálogo Visual de Experiencias y Paquetes**: Presentación limpia de sus disciplinas (Go-Karts, Paintball, Circuitos Aéreos, Combos Multiaventura) con tarifas individuales y paquetes cerrados para grupos y familias (*Crew 5*, *Battle 10*, *Triple Pass*).
+2. **Registro Anticipado de Participantes**: En compras grupales, el cliente asigna los nombres de sus acompañantes desde la web, ahorrándole a su personal de recepción la captura manual de datos.
+3. **Bilingüe Nativo (Español / Inglés)**: Indispensable si recibe turismo internacional. El visitante cambia de idioma en un clic y todo el catálogo, descargo legal y checkout se adapta al instante.
+4. **Claridad Impositiva Total**: Impuestos locales (ITBIS 18%) claramente desglosados para evitar fricciones al momento de pagar.
+
+---
+
+## 3. Control Operativo y de Seguridad para su Personal
+
+AdventureOS entrega a su equipo herramientas intuitivas que no requieren semanas de capacitación:
+
+### A) Taquilla y Recepción (Módulo Cajero POS)
+- **Búsqueda Instantánea en 1 Segundo**: Si el cliente llega con su código de reserva o nombre, el cajero lo localiza al instante en pantalla.
+- **Cobro Flexible**: Opción de pagar con tarjeta física en su terminal bancario o en efectivo con calculadora de cambio automático.
+- **Impresión de Ticket Térmico de 80mm**: Impresión profesional inmediata de recibos y vouchers para entregar al cliente en formato estándar de punto de venta.
+- **Control de Turnos**: Arqueo de efectivo y cobros con tarjeta por sesión de caja para auditoría transparente.
+
+### B) Control en Pista y Atracciones (Módulo Escáner Staff)
+- **Escaneo Rápido con Smartphone o Lector 2D**: El operario apunta al QR del pase del visitante.
+- **Semáforo Óptico Gigante**: Pantalla en Verde (Aprobado), Rojo (Ya usado / Inválido) y Ámbar (En espera). Diseñado especialmente para exteriores y luz solar.
+- **Bloqueo Atómico Anti-Fraude**: Si dos amigos intentan canjear una captura de pantalla del mismo pase al mismo tiempo, el sistema valida uno y bloquea automáticamente el segundo en milisegundos.
+
+### C) Dirección y Gerencia (Panel Administrativo en Vivo)
+- **Métricas Clave en Tiempo Real**: Total recaudado hoy, órdenes procesadas, afluencia de participantes y waivers completados.
+- **Conversión de Divisas Automática**: Reportes unificados en Dólares (USD) y Pesos Dominicanos (DOP).
+- **Gestión de Catálogo**: Suba o pause experiencias y actualice precios con vigencia inmediata.
+
+---
+
+## 4. Cobros y Pasarelas de Pago: El Dinero va Directo a su Cuenta
+
+Usted mantiene el control total de sus finanzas. AdventureOS no retiene su dinero ni actúa como intermediario; **los fondos se acreditan directamente en las cuentas bancarias de su empresa**:
 
 ```mermaid
 graph TD
-    A["Visitante Online / Móvil"] -->|1. Elige Experiencia| B["Catálogo Bilingüe"]
-    B -->|2. Reserva Fecha / Cupos| C["Roster de Participantes"]
-    C -->|3. Firma Electrónica| D["Waiver Digital Inmutable"]
-    D -->|4. Pago Online / En Sitio| E["Pasarela de Pagos (AZUL / Stripe)"]
-    E -->|5. Emisión Inmediata| F["Pase Digital QR Seguro"]
-    F -->|6. Validación en Pista| G["Escáner Staff (Cero Fraude)"]
-    G -->|Métricas en Tiempo Real| H["Panel Administrativo / POS"]
+    User["Cliente Paga en Línea"] --> Gateway["Pasarela Conectada (AZUL / Stripe / CardNet)"]
+    Gateway --> Bank["Su Cuenta Bancaria Comercial (Depósito Directo)"]
+    Gateway --> AdvOS["AdventureOS Emite Pase QR Automático"]
 ```
 
----
-
-## 2. Capacidades Principales del Software
-
-### 2.1. Funnel de Ventas y Reservas para Visitantes (B2C)
-- **Catálogo Interactivo y Paquetes Cerrados**: Presentación visual en cuadrícula de experiencias individuales, pases múltiples (*Triple Pass*) y paquetes grupales (*Crew 5*, *Battle 10*, etc.).
-- **Flujo Guiado Paso a Paso**: Selección deliberada de experiencias con confirmación explícita mediante botones de avance que evitan saltos abruptos en el checkout.
-- **Roster Dinámico de Participantes**: Ajuste automático del número de participantes según el paquete contratado, permitiendo ingresar nombres y roles antes de llegar a la pista.
-- **Soporte Bilingüe Nativo (Español / Inglés)**: Conmutación instantánea en tiempo real sin recarga de página, ideal para centros turísticos internacionales.
-- **Gestión Impositiva Automática**: Cumplimiento fiscal con ITBIS (18%) o impuestos locales integrados en el precio o discriminados según la normativa tributaria.
-
-### 2.2. Motor de Waivers Digitales & Firma Electrónica
-- **Firma Interactiva en Canvas HTML5**: Captura de trazo digital fluida tanto en smartphones como en tablets de kiosco en recepción.
-- **Protección a Menores de Edad**: Detección algorítmica de edad con campos obligatorios para tutor legal o adulto responsable.
-- **Auditoría Forense Inmutable**: Almacenamiento del texto legal de la versión aceptada, IP de origen, huella de navegador (*User-Agent*) y marca de tiempo certificada (ISO 8601).
-- **Ahorro 100% en Papel y Archivo Físico**: Eliminación total de archivadores físicos y búsqueda instantánea de consentimientos ante contingencias legales o reclamos de aseguradoras.
-
-### 2.3. Control de Acceso y Validación de Pases QR (Staff)
-- **Pases Digitales Zero-PII**: Códigos QR de alta densidad sin datos personales expuestos (*privacy by design*), encriptados con tokens alfanuméricos seguros.
-- **Tecnología Anti-Doble Canje (*Anti Double-Spending*)**: Transacciones atómicas a nivel de base de datos que impiden el canje simultáneo o fotocopiado de un mismo pase.
-- **Interfaz de Pista Óptica Gigante**: Semáforo visual en pantalla completa (Verde = Aprobado, Rojo = Inválido/Ya Usado, Ámbar = Esperando) diseñado para operarios en ambientes exteriores con luz solar directa o reflejos.
-
-### 2.4. Punto de Venta (POS) y Caja en Recepción
-- **Búsqueda Instantánea Omnicanal**: Localización de reservas en milisegundos mediante escaneo de QR, código de orden o nombre del cliente.
-- **Control de Sesiones de Caja**: Flujo formal de apertura con fondo de caja (*opening float*), registro de cobros en efectivo con calculadora de cambio y cierre de turno con arqueo.
-- **Impresión de Recibos Térmicos de 80mm**: Salida directa formateada con `@media print` para impresoras térmicas estándar (Epson, Star Micronics, Bixolon) con desglose impositivo y código de voucher.
-
-### 2.5. Panel de Control y Analítica Administrativa
-- **Métricas Operativas en Tiempo Real**: Ingresos del día, número de órdenes procesadas, afluencia de participantes y tasa de cumplimiento de waivers.
-- **Conversión Multidivisa en Vivo**: Visualización unificada de métricas operativas en Dólares Estadounidenses (USD) y Pesos Dominicanos (DOP).
-- **Gestión de Catálogo**: Capacidad de activar/pausar experiencias y modificar precios de forma inmediata.
+### Integraciones Disponibles:
+- **República Dominicana (Local)**:
+  - **AZUL (Banco Popular)**: Integración oficial con Hosted Checkout y protocolo de seguridad 3DSecure 2.0 con firma criptográfica HMAC-SHA512. Depósitos en DOP o USD en su cuenta local.
+  - **CardNet / Carnet**: Conexión con adquirencia local para aceptación masiva de tarjetas dominicanas e internacionales.
+- **Internacional**:
+  - **Stripe**: Cobros instantáneos con Apple Pay, Google Pay y tarjetas Visa, Mastercard y American Express de todo el mundo.
+  - **PayPal**: Ideal para captar reservas anticipadas de turistas extranjeros antes de que viajen a su destino.
+- **En Sitio (Taquilla)**:
+  - Terminales físicas (*Verifone / Ingenico / CardNet / AZUL POS*) y control de cobro en efectivo.
 
 ---
 
-## 3. Integraciones de Pago y Flexibilidad Financiera
+## 5. Modalidades de Adquisición y Precios
 
-AdventureOS fue desarrollado con una arquitectura modular desacoplada (`IPaymentProvider`), lo que permite conectar cualquier pasarela bancaria sin rehacer el sistema:
+Diseñamos esquemas comerciales adaptados al tamaño y estrategia de su parque:
 
-| Proveedor / Método | Tipo de Integración | Mercado Objetivo | Características |
-| :--- | :--- | :--- | :--- |
-| **AZUL (Banco Popular)** | API / Hosted Checkout 3DS | República Dominicana | Autenticación criptográfica HMAC-SHA512 (`AuthHash`), cumplimiento 3D-Secure 2.0 y acreditación local directa en DOP/USD. |
-| **CardNet / Carnet** | Webhook / Hosted Page | Caribe & Centroamérica | Aceptación de tarjetas locales e internacionales con tokenización segura. |
-| **Stripe** | Stripe Elements / Checkout | Internacional / Global | Pagos instantáneos con Apple Pay, Google Pay y tarjetas de crédito globales en más de 135 divisas. |
-| **PayPal Commerce** | Smart Payment Buttons | Turistas Internacionales | Pago mediante billetera digital PayPal para visitantes extranjeros sin tarjeta a mano. |
-| **Cobro Físico POS / Efectivo** | Integración Terminal en Sitio | Recepción / Taquilla | Marcación de orden como pagada en sitio con registro de transacción física y arqueo de caja. |
+### Opción 1: Plan Cloud Gestionado (SaaS)
+*La opción recomendada para comenzar de inmediato con mínima inversión inicial.*
+- **Incluye**: Alojamiento en servidores cloud de alta velocidad (Vercel / AWS), base de datos redundante, certificados SSL, actualizaciones continuas y soporte técnico prioritario.
+- **Costo de Activación**: Tarifa única de configuración, parametrización de catálogo, diseño con sus logotipos y capacitación de personal.
+- **Mensualidad de Servicio**: Cuota mensual fija + porcentaje mínimo por transacción online procesada.
 
-> **Modo Demostración / Alta Disponibilidad (Failover Activo):** La plataforma incluye un motor Mock integrado que permite procesar ventas en modo simulación para entrenamiento del personal o contingencia operativa cuando las telecomunicaciones externas presenten fallas.
+### Opción 2: Licencia Empresarial (Propiedad del Software)
+*Para parques o cadenas que desean tener el software como un activo propio de la empresa.*
+- **Incluye**: Entrega y despliegue del software en su propia infraestructura en la nube o servidores locales, sin comisiones por transacción.
+- **Personalización Exclusiva**: Adaptación a la medida de los flujos de su parque.
+- **Garantía y Póliza de Mantenimiento Anual** opcional.
 
----
-
-## 4. Controles Operativos, Seguridad y Auditoría
-
-1. **Aislamiento Multi-Tenant**: Base de datos estructurada con partición lógica por parque (`TenantId`), permitiendo a una cadena operar múltiples sedes con inventarios, configuraciones y usuarios independientes.
-2. **Seguridad Basada en Roles (RBAC)**:
-   - `SUPERADMIN`: Control global de configuración y finanzas.
-   - `ADMIN`: Gestión de catálogo, métricas y reportes del parque.
-   - `CASHIER`: Cobros en taquilla, búsqueda de órdenes y arqueo de caja.
-   - `OPERATOR`: Validación exclusiva de pases QR en pista (sin acceso a datos financieros).
-3. **Cero Caídas en Producción**: Arquitectura Next.js App Router optimizada para despliegue *Edge / Serverless* (Vercel, AWS Lambda) con compatibilidad de bases de datos serverless (Neon Postgres, Supabase).
-4. **Cumplimiento y Trazabilidad Legal**: Cada firma digital almacena metadatos forenses listos para exportación pericial en caso de incidentes en pista.
+### Opción 3: Proyecto Integral "Llave en Mano" (Software + Hardware)
+- Software AdventureOS instalado y configurado.
+- Tablets con soporte de seguridad para estación de waivers en recepción.
+- Escáneres ópticos 2D de alta velocidad para operarios de pista.
+- Impresoras térmicas de 80mm de alta durabilidad para taquilla.
 
 ---
 
-## 5. Modelos de Venta y Comercialización
+## 6. Cronograma de Implementación (En Marcha en 3 Semanas)
 
-Se proponen tres modalidades comerciales flexibles según el perfil del cliente:
+No interferimos con el funcionamiento diario de su parque. La puesta en marcha se realiza en paralelo:
 
-### Modalidad A: Software as a Service (SaaS Recurrente)
-*Ideal para parques que buscan bajo costo inicial y soporte continuo.*
-- **Setup inicial**: Implementación, carga de catálogo e inducción de personal.
-- **Mensualidad fija**: Acceso completo a la plataforma, hosting serverless y actualizaciones de seguridad.
-- **Comisión por transacción online**: Porcentaje reducido sobre reservas procesadas a través de la web.
-
-### Modalidad B: Licencia Empresarial (White-Label / On-Premise)
-*Ideal para cadenas de entretenimiento o franquicias que desean propiedad sobre su stack.*
-- **Venta de código fuente o licencia perpetua**: Despliegue en la nube del cliente (AWS, Vercel, Azure o servidor propio).
-- **Personalización de identidad gráfica completa**: Dominio propio, logotipos y personalización a medida.
-- **Contrato de soporte y mantenimiento anual opcional**.
-
-### Modalidad C: Llave en Mano con Hardware (Kioscos y Taquilla)
-*Solución completa que incluye software + equipamiento físico.*
-- Software AdventureOS preinstalado.
-- Tablets de uso rudo para estación de firma digital de waivers.
-- Escáneres ópticos 2D para operarios de pista.
-- Impresoras térmicas de recibos de 80mm preconfiguradas para taquilla.
+| Etapa | Plazo | Entregables |
+| :--- | :---: | :--- |
+| **Fase 1: Configuración y Marca** | Días 1 a 5 | Carga de catálogo con fotos y tarifas, personalización de colores/logos y redacción de waiver legal adaptado a sus pólizas de seguro. |
+| **Fase 2: Conexión Bancaria** | Días 6 a 10 | Conexión con sus credenciales de AZUL, CardNet o Stripe; pruebas de cobro real y simulado en ambiente seguro. |
+| **Fase 3: Capacitación de Personal** | Días 11 a 15 | Talleres prácticos de 30 minutos con cajeros (POS) y operarios (Escáner). Pruebas de estrés de taquilla. |
+| **Fase 4: Lanzamiento en Vivo** | Día 16 en adelante | Apertura del sistema al público con acompañamiento y monitoreo técnico en tiempo real durante su fin de semana de mayor afluencia. |
 
 ---
 
-## 6. Retorno de Inversión Estimado (ROI)
+## 7. Próximo Paso Recomendado
 
-| Métrica Operativa | Antes de AdventureOS | Con AdventureOS | Impacto |
-| :--- | :--- | :--- | :--- |
-| **Tiempo de taquilla por grupo** | 8 a 12 minutos | 45 segundos | **-90% de tiempo en fila** |
-| **Pérdida por fraude o doble uso** | 3% - 5% de entradas | 0% (bloqueo atómico) | **Recuperación directa de ingresos** |
-| **Costo de papel e impresión de waivers** | US$ 300 - 800 / mes | US$ 0 | **100% ahorro ecológico y operativo** |
-| **Venta anticipada online** | < 10% del total | 35% - 55% del total | **Mayor flujo de caja antes de la visita** |
+Para que su equipo evalúe la fluidez y velocidad del sistema en un entorno real:
+
+1. **Demostración Interactiva en Vivo (20 minutos)**: Navegaremos juntos por el catálogo, realizaremos una compra de prueba, firmaremos un waiver desde el celular y validaremos el pase en el escáner de pista.
+2. **Propuesta Económica Personalizada**: Con base en el número de atracciones y volumen promedio de visitantes de su parque, estructuraremos la cotización más rentable para su empresa.
 
 ---
 
-## 7. Plan de Implementación (Roadmap de Despliegue)
-
-```
-Semana 1: Configuración de Tenant, catálogo y personalización de marca.
-Semana 2: Vinculación con pasarela de pagos (AZUL / Stripe) y pruebas en Sandbox.
-Semana 3: Capacitación al equipo de recepción (POS) y operarios de pista (Escáner).
-Semana 4: Lanzamiento en vivo con acompañamiento técnico presencial o remoto.
-```
-
----
-
-*Documento preparado como propuesta comercial y técnica. Para demostraciones en vivo o cotización formal adaptada a las necesidades de su complejo recreativo, contáctenos.*
+**AdventureOS — Tecnología que Acelera su Parque.**  
+*Quedamos a su entera disposición para coordinar la sesión demostrativa en el día y horario que mejor convenga a su agenda.*
