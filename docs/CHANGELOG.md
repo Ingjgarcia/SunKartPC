@@ -17,7 +17,8 @@ Todas las modificaciones notables y características implementadas en el sistema
   - Pantalla de pasarela de pago con simulador de aprobación 3DS o tarjeta declinada (`/payment`).
   - Confirmación con animación de confeti y emisión de voucher (`/success`).
   - Pantalla permanente de Pase Digital con render de Código QR seguro de alta resolución (Zero PII) (`/pass/[token]`).
-- **Módulo de Caja POS (`/dashboard/cashier`)**: Búsqueda instantánea de órdenes por código, nombre o QR; calculadora de cambio de efectivo; cobro con tarjeta POS; y visor e impresión de recibo térmico en formato 80mm con media query `@media print`.
+- **Módulo de Caja POS (`/dashboard/cashier`)**: Búsqueda instantánea de órdenes por código, nombre o QR; calculadora de cambio de efectivo; cobro con tarjeta POS; visor e impresión de recibo térmico en formato 80mm; control formal de turnos de caja (`CashierSession`) con apertura de fondo inicial, bloqueo preventivo contra cobros sin turno activo, arqueo parcial informativo (Reporte X) y arqueo ciego de cierre de turno con cálculo dinámico de sobrantes/faltantes y emisión de Reporte Z imprimible en 80mm.
+- **Conexión a Base de Datos en la Nube (Prisma Postgres / Vercel Storage)**: Sincronizado el esquema Prisma en la nube con tablas relacionales en producción y sembrado del catálogo oficial de 11 paquetes y usuarios del parque.
 - **Módulo de Escáner Staff (`/dashboard/scanner`)**: Interfaz para operarios de pista con prevención atómica de doble canje (*anti double-spending*) y señalización óptica gigante en verde, rojo y ámbar.
 - **Panel Administrativo (`/dashboard/admin`)**: Métricas operativas en tiempo real (Ingresos hoy, órdenes procesadas, participantes y waivers firmados) y visualización del catálogo.
 - **Pasarelas de Pago Desacopladas**: Abstracción `IPaymentProvider` con `MockPaymentProvider` y `AzulPaymentProvider` implementando el cálculo de firma criptográfica HMAC-SHA512 `AuthHash` para República Dominicana.
