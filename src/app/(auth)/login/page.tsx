@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Lock, Mail, ArrowRight, ShieldCheck, UserCheck, CreditCard, QrCode } from "lucide-react";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -17,31 +20,58 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+    try {
+      const res = await signIn("credentials", {
+        email: email.trim().toLowerCase(),
+        password,
+        redirect: false,
+      });
 
-    if (res?.error) {
-      setError(res.error);
-      setLoading(false);
-    } else {
-      if (email.includes("cashier")) {
-        router.push("/dashboard/cashier");
-      } else if (email.includes("staff")) {
-        router.push("/dashboard/scanner");
+      if (res?.error) {
+        setError(res.error || "Credenciales inválidas");
+        setLoading(false);
       } else {
-        router.push("/dashboard/admin");
+        if (callbackUrl) {
+          router.push(callbackUrl);
+        } else if (email.includes("cashier")) {
+          router.push("/dashboard/cashier");
+        } else if (email.includes("staff")) {
+          router.push("/dashboard/scanner");
+        } else {
+          router.push("/dashboard/admin");
+        }
+        router.refresh();
       }
+    } catch {
+      setError("Error de conexión al iniciar sesión");
+      setLoading(false);
     }
   };
 
-  const handleQuickLogin = (roleEmail: string, targetPath: string) => {
+  const handleQuickLogin = async (roleEmail: string, targetPath: string) => {
     setEmail(roleEmail);
     setPassword("demo123");
-    // Direct redirect for seamless demo experience
-    router.push(targetPath);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await signIn("credentials", {
+        email: roleEmail,
+        password: "demo123",
+        redirect: false,
+      });
+
+      if (res?.error) {
+        setError(res.error);
+        setLoading(false);
+      } else {
+        router.push(callbackUrl || targetPath);
+        router.refresh();
+      }
+    } catch {
+      setError("Error al iniciar sesión");
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,57 +96,63 @@ export default function LoginPage() {
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
+              disabled={loading}
               onClick={() => handleQuickLogin("cashier@sunkart.com", "/dashboard/cashier")}
-              className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-orange-500/50 text-left transition-all group"
+              className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-orange-500/50 text-left transition-all group disabled:opacity-50"
             >
               <div className="flex items-center gap-1.5 text-xs font-bold text-white group-hover:text-orange-400">
                 <CreditCard className="w-3.5 h-3.5 text-orange-400" />
                 <span>Caja POS</span>
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">Cobro y órdenes</span>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Valeria Peña (Cajera)</span>
             </button>
 
             <button
               type="button"
+              disabled={loading}
               onClick={() => handleQuickLogin("staff@sunkart.com", "/dashboard/scanner")}
-              className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-orange-500/50 text-left transition-all group"
+              className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-orange-500/50 text-left transition-all group disabled:opacity-50"
             >
               <div className="flex items-center gap-1.5 text-xs font-bold text-white group-hover:text-orange-400">
                 <QrCode className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Staff Escáner</span>
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">Validación QR</span>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Marcos Santana (Pista)</span>
             </button>
 
             <button
               type="button"
+              disabled={loading}
               onClick={() => handleQuickLogin("admin@sunkart.com", "/dashboard/admin")}
-              className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-orange-500/50 text-left transition-all group"
+              className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-orange-500/50 text-left transition-all group disabled:opacity-50"
             >
               <div className="flex items-center gap-1.5 text-xs font-bold text-white group-hover:text-orange-400">
                 <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Business Admin</span>
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">Métricas y catálogo</span>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Carlos Almonte (Gerente)</span>
             </button>
 
             <button
               type="button"
+              disabled={loading}
               onClick={() => handleQuickLogin("superadmin@adventureos.com", "/dashboard/admin")}
-              className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-orange-500/50 text-left transition-all group"
+              className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-orange-500/50 text-left transition-all group disabled:opacity-50"
             >
               <div className="flex items-center gap-1.5 text-xs font-bold text-white group-hover:text-orange-400">
                 <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
                 <span>Super Admin</span>
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">Plataforma SaaS</span>
+              <span className="text-[10px] text-slate-400 block mt-0.5">Administrador Global</span>
             </button>
           </div>
         </div>
 
         <div className="relative flex py-1 items-center">
           <div className="flex-grow border-t border-slate-800"></div>
-          <span className="flex-shrink mx-3 text-[10px] uppercase font-bold text-slate-500 font-mono">o con credenciales</span>
+          <span className="flex-shrink mx-3 text-[10px] uppercase font-bold text-slate-500 font-mono">
+            o con credenciales reales
+          </span>
           <div className="flex-grow border-t border-slate-800"></div>
         </div>
 
@@ -164,11 +200,25 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
           >
-            <span>{loading ? "Verificando..." : "Ingresar al Sistema"}</span>
+            <span>{loading ? "Autenticando..." : "Ingresar al Sistema"}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+          <div className="text-slate-500 text-sm">Cargando acceso...</div>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }

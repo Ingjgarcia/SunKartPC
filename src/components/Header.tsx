@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Zap, ShieldCheck, CreditCard, QrCode, BarChart3, LogIn, Globe } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
+import { Zap, ShieldCheck, CreditCard, QrCode, BarChart3, LogIn, LogOut, Globe } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export function Header() {
   const pathname = usePathname();
+  const { data: session } = useSession();
   const { lang, toggleLang, t } = useLanguage();
 
   return (
@@ -92,14 +94,35 @@ export function Header() {
             <span className="font-mono">{lang === "es" ? "ES (Español)" : "EN (English)"}</span>
           </button>
 
-          {/* Login button */}
-          <Link
-            href="/login"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-xs font-medium text-slate-200 border border-slate-700 transition-all hover:border-slate-600"
-          >
-            <LogIn className="w-3.5 h-3.5 text-orange-400" />
-            <span>{t("navStaffLogin")}</span>
-          </Link>
+          {/* Authentication Status / Login Button */}
+          {session?.user ? (
+            <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
+              <div className="hidden sm:flex flex-col text-right">
+                <span className="text-xs font-bold text-white leading-none truncate max-w-[130px]">
+                  {session.user.name}
+                </span>
+                <span className="text-[9px] text-orange-400 font-mono font-bold leading-tight mt-0.5">
+                  {(session.user as any).role || "STAFF"}
+                </span>
+              </div>
+              <button
+                onClick={() => signOut({ callbackUrl: "/login" })}
+                className="p-2 rounded-lg bg-slate-800/80 hover:bg-rose-950/40 text-slate-300 hover:text-rose-400 border border-slate-700 hover:border-rose-800/50 transition-colors flex items-center gap-1 text-xs"
+                title="Cerrar Sesión"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span className="hidden lg:inline text-[11px] font-medium">Salir</span>
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-xs font-medium text-slate-200 border border-slate-700 transition-all hover:border-slate-600"
+            >
+              <LogIn className="w-3.5 h-3.5 text-orange-400" />
+              <span>{t("navStaffLogin")}</span>
+            </Link>
+          )}
         </div>
       </div>
     </header>
