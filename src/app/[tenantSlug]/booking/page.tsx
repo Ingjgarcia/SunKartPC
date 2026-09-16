@@ -6,6 +6,7 @@ import { demoStore, DemoExperience } from "@/lib/demo-store";
 import { formatCurrency, convertToDop, calculateOrderTotals } from "@/lib/formatters";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Users, Calendar, ArrowRight, User, Mail, Phone, Sparkles, CheckCircle2 } from "lucide-react";
+import { BookingStepper } from "@/components/BookingStepper";
 
 export default function BookingPage({
   params,
@@ -129,27 +130,11 @@ export default function BookingPage({
   const totalParticipants = participants.length;
 
   return (
-    <div className="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Step Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
-            <span className="text-orange-400 font-bold flex items-center gap-1.5">
-              <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px]">1</span>
-              <span>1. {t("stepParticipants")}</span>
-            </span>
-            <span className="text-slate-600">———</span>
-            <span className="flex items-center gap-1.5 text-slate-500">
-              <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-[10px]">2</span>
-              <span>2. {t("stepWaiver")}</span>
-            </span>
-            <span className="text-slate-600">———</span>
-            <span className="flex items-center gap-1.5 text-slate-500">
-              <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-[10px]">3</span>
-              <span>3. {t("stepCheckout")}</span>
-            </span>
-          </div>
-        </div>
+    <div className="min-h-screen bg-slate-950 pb-20">
+      {/* Visual Stepper */}
+      <BookingStepper currentStep={2} tenantSlug={params.tenantSlug} />
+
+      <div className="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Booking Form */}

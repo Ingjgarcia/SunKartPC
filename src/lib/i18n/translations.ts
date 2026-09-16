@@ -51,6 +51,19 @@ export const translations = {
     expSkyDesc: "Circuito aéreo de puentes colgantes, redes y plataformas suspendidas a 10 metros de altura.",
     expComboDesc: "¡El paquete más vendido! Incluye tanda de Go-Kart Pro Adulto, Paintball Combat (200 bolas) y Circuito Sky Ropes con descuento especial.",
 
+    // Stepper Steps
+    stepperStep1: "1. Experiencia",
+    stepperStep2: "2. Participantes",
+    stepperStep3: "3. Waiver Legal",
+    stepperStep4: "4. Pago",
+    stepperStep5: "5. Pase QR",
+
+    // Email Pass Action
+    sendToEmailBtn: "Enviar pase a mi correo",
+    sendingEmail: "Enviando pase...",
+    emailSentSuccess: "¡Pase enviado a",
+    emailSendError: "No se pudo enviar el correo.",
+
     // Steps
     stepParticipants: "Participantes",
     stepWaiver: "Waiver Digital",
@@ -223,6 +236,19 @@ Al firmar este documento electrónico, declaro de manera libre, voluntaria e inf
     expZiplineDesc: "Fly over the tropical canopy with 5 double high-speed lines and panoramic Punta Cana views.",
     expSkyDesc: "High-ropes obstacle course with suspension bridges, nets and suspended platforms at 10 meters height.",
     expComboDesc: "Our best-seller! Includes 1 heat of Adult Pro Go-Karts, Paintball Jungle Combat (200 balls) and full Sky High Ropes access with combo discount.",
+
+    // Stepper Steps
+    stepperStep1: "1. Experience",
+    stepperStep2: "2. Participants",
+    stepperStep3: "3. Legal Waiver",
+    stepperStep4: "4. Payment",
+    stepperStep5: "5. Digital Pass",
+
+    // Email Pass Action
+    sendToEmailBtn: "Send pass to my email",
+    sendingEmail: "Sending pass...",
+    emailSentSuccess: "Pass successfully sent to",
+    emailSendError: "Could not send email.",
 
     // Steps
     stepParticipants: "Participants",

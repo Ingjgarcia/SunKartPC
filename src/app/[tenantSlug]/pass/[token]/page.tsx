@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { formatCurrency } from "@/lib/formatters";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
-import { QrCode, CheckCircle2, Clock, AlertTriangle, ShieldCheck, Printer, Users } from "lucide-react";
+import { QrCode, CheckCircle2, Clock, AlertTriangle, ShieldCheck, Printer, Users, Mail, Loader2, Check } from "lucide-react";
+import { BookingStepper } from "@/components/BookingStepper";
 
 export default function DigitalPassPage({
   params,
@@ -14,6 +15,30 @@ export default function DigitalPassPage({
   const [passData, setPassData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [emailStatus, setEmailStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
+  const [sentToEmail, setSentToEmail] = useState("");
+
+  const handleSendEmail = async () => {
+    if (emailStatus === "loading" || emailStatus === "sent") return;
+    try {
+      setEmailStatus("loading");
+      const res = await fetch("/api/notifications/send-pass", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passToken: params.token }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEmailStatus("sent");
+        setSentToEmail(data.email || "");
+      } else {
+        setEmailStatus("error");
+      }
+    } catch {
+      setEmailStatus("error");
+    }
+  };
 
   useEffect(() => {
     async function loadPass() {
@@ -68,8 +93,12 @@ export default function DigitalPassPage({
   const isUsed = pass.status === "USED";
 
   return (
-    <div className="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-      <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative">
+    <div className="min-h-screen bg-slate-950 pb-20">
+      {/* Visual Stepper */}
+      <BookingStepper currentStep={5} tenantSlug={params.tenantSlug} />
+
+      <div className="py-10 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative">
         {/* Ticket Header */}
         <div className="bg-gradient-to-r from-orange-600 to-amber-600 p-6 text-white text-center relative">
           <div className="inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-widest bg-black/20 px-3 py-1 rounded-full mb-2">
@@ -154,6 +183,38 @@ export default function DigitalPassPage({
             </ul>
           </div>
 
+          {/* Send to Email Button */}
+          <button
+            onClick={handleSendEmail}
+            disabled={emailStatus === "loading" || emailStatus === "sent"}
+            className={`w-full py-3 px-4 rounded-xl border text-xs font-semibold flex items-center justify-center gap-2 transition-all ${
+              emailStatus === "sent"
+                ? "bg-emerald-950/60 border-emerald-500/40 text-emerald-400"
+                : emailStatus === "error"
+                ? "bg-rose-950/60 border-rose-500/40 text-rose-300 hover:bg-rose-900/40"
+                : "bg-slate-800/80 hover:bg-slate-800 border-slate-700 text-slate-200 hover:text-white"
+            }`}
+          >
+            {emailStatus === "loading" ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin text-orange-400" />
+                <span>{t("sendingEmail")}</span>
+              </>
+            ) : emailStatus === "sent" ? (
+              <>
+                <Check className="w-4 h-4 text-emerald-400" />
+                <span>
+                  {t("emailSentSuccess")} {sentToEmail || "tu correo"}
+                </span>
+              </>
+            ) : (
+              <>
+                <Mail className="w-4 h-4 text-orange-400" />
+                <span>{emailStatus === "error" ? "Reintentar envío a correo" : t("sendToEmailBtn")}</span>
+              </>
+            )}
+          </button>
+
           {/* Print button */}
           <button
             onClick={() => window.print()}
@@ -163,6 +224,7 @@ export default function DigitalPassPage({
             <span>{t("printPdfBtn")}</span>
           </button>
         </div>
+      </div>
       </div>
     </div>
   );

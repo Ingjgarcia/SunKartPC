@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { formatCurrency, convertToDop, calculateOrderTotals } from "@/lib/formatters";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Check, CreditCard, Banknote, ShieldCheck, ArrowRight, UserCheck, Calendar } from "lucide-react";
+import { BookingStepper } from "@/components/BookingStepper";
 
 export default function CheckoutPage({
   params,
@@ -90,27 +91,11 @@ export default function CheckoutPage({
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Step Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-              <Check className="w-4 h-4" />
-              {t("stepParticipants")}
-            </span>
-            <span className="text-emerald-500">———</span>
-            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-              <Check className="w-4 h-4" />
-              {t("stepWaiver")}
-            </span>
-            <span className="text-orange-500">———</span>
-            <span className="text-orange-400 font-bold flex items-center gap-1.5">
-              <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px]">3</span>
-              {t("stepCheckout")}
-            </span>
-          </div>
-        </div>
+    <div className="min-h-screen bg-slate-950 pb-20">
+      {/* Visual Stepper */}
+      <BookingStepper currentStep={4} tenantSlug={params.tenantSlug} />
+
+      <div className="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Checkout Options */}

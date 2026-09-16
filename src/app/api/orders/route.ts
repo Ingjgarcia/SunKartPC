@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { demoStore } from "@/lib/demo-store";
-import { generateOrderNumber, generatePassCode } from "@/lib/formatters";
+import { generateOrderNumber, generatePassCode, formatCurrency } from "@/lib/formatters";
 import { generateSecurityToken } from "@/lib/qr";
+import { sendDigitalPassEmail } from "@/lib/email";
 
 export async function GET(req: Request) {
   try {
@@ -93,6 +94,25 @@ export async function POST(req: Request) {
           });
         }
 
+        // Resolve valid experienceId in DB
+        const defaultExp = await prisma.experience.findFirst({ where: { tenantId: tenant.id } });
+        const resolvedItems = await Promise.all(
+          items.map(async (item: any) => {
+            let exp = await prisma.experience.findFirst({
+              where: {
+                tenantId: tenant.id,
+                OR: [{ id: item.experienceId }, { slug: item.experienceId }],
+              },
+            });
+            return {
+              experienceId: exp?.id || defaultExp?.id || item.experienceId,
+              quantity: item.quantity,
+              unitPrice: item.unitPrice,
+              totalPrice: item.totalPrice,
+            };
+          })
+        );
+
         const createdOrder = await prisma.order.create({
           data: {
             orderNumber,
@@ -107,12 +127,7 @@ export async function POST(req: Request) {
             paymentStatus,
             paymentMethod,
             items: {
-              create: items.map((item: any) => ({
-                experienceId: item.experienceId,
-                quantity: item.quantity,
-                unitPrice: item.unitPrice,
-                totalPrice: item.totalPrice,
-              })),
+              create: resolvedItems,
             },
             participants: {
               create: participants.map((p: any) => ({
@@ -124,17 +139,37 @@ export async function POST(req: Request) {
               create: {
                 passCode,
                 securityToken,
-                status: isOnlinePaid ? "VALID" : "VALID", // pass is generated, but scanner verifies paymentStatus == 'PAID'
+                status: "VALID",
               },
             },
           },
           include: {
             customer: true,
-            items: true,
+            items: { include: { experience: true } },
             participants: true,
             pass: true,
           },
         });
+
+        // Trigger email if online paid
+        if (isOnlinePaid && createdOrder.customer?.email && createdOrder.pass?.securityToken) {
+          sendDigitalPassEmail({
+            to: createdOrder.customer.email,
+            orderNumber: createdOrder.orderNumber,
+            customerName: `${createdOrder.customer.firstName} ${createdOrder.customer.lastName || ""}`.trim(),
+            experienceTitle: (createdOrder.items?.[0] as any)?.experience?.name || "Experiencia SunKart Park",
+            participantsCount: createdOrder.participants?.length || 1,
+            participants: createdOrder.participants?.map((p: any) => p.fullName) || [],
+            bookingDate: createdOrder.createdAt
+              ? new Date(createdOrder.createdAt).toISOString().split("T")[0]
+              : new Date().toISOString().split("T")[0],
+            totalFormatted: formatCurrency(Number(createdOrder.total), createdOrder.currency || "USD"),
+            paymentStatus: "PAID",
+            passToken: createdOrder.pass.securityToken,
+            passCode: createdOrder.pass.passCode,
+            tenantSlug: "sunkart-pc",
+          }).catch((err) => console.warn("Email send err on order create:", err));
+        }
 
         return NextResponse.json({
           success: true,

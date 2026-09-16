@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { demoStore } from "@/lib/demo-store";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { ShieldAlert, Check, RefreshCw, ArrowRight, UserCheck, AlertTriangle } from "lucide-react";
+import { BookingStepper } from "@/components/BookingStepper";
 
 export default function WaiverPage({
   params,
@@ -162,27 +163,11 @@ export default function WaiverPage({
   if (!bookingDraft) return null;
 
   return (
-    <div className="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        {/* Step Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-              <Check className="w-4 h-4" />
-              {t("stepParticipants")}
-            </span>
-            <span className="text-orange-500">———</span>
-            <span className="text-orange-400 font-bold flex items-center gap-1.5">
-              <span className="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px]">2</span>
-              {t("stepWaiver")}
-            </span>
-            <span className="text-slate-600">———</span>
-            <span className="flex items-center gap-1.5 text-slate-500">
-              <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-[10px]">3</span>
-              {t("stepCheckout")}
-            </span>
-          </div>
-        </div>
+    <div className="min-h-screen bg-slate-950 pb-20">
+      {/* Visual Stepper */}
+      <BookingStepper currentStep={3} tenantSlug={params.tenantSlug} />
+
+      <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Legal Document Reader */}

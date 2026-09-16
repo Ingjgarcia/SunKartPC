@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { formatCurrency, convertToDop, calculateOrderTotals } from "@/lib/formatters";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { CreditCard, CheckCircle2, XCircle, Banknote, ShieldCheck, Lock, Loader2 } from "lucide-react";
+import { BookingStepper } from "@/components/BookingStepper";
 
 export default function PaymentProcessingPage({
   params,
@@ -87,7 +88,11 @@ export default function PaymentProcessingPage({
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+    <div className="min-h-screen bg-slate-950 pb-16">
+      {/* Visual Stepper */}
+      <BookingStepper currentStep={4} tenantSlug={params.tenantSlug} />
+
+      <div className="py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <div className="max-w-lg w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
         {/* Top decor */}
         <div className="absolute -top-12 -right-12 w-36 h-36 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -188,6 +193,7 @@ export default function PaymentProcessingPage({
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

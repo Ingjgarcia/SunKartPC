@@ -6,6 +6,7 @@ import { demoStore } from "@/lib/demo-store";
 import { formatCurrency, convertToDop } from "@/lib/formatters";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { Users, Shield, Sparkles, Trophy, CheckCircle2, ArrowRight } from "lucide-react";
+import { BookingStepper } from "@/components/BookingStepper";
 
 export default function TenantCatalogPage({
   params,
@@ -53,6 +54,9 @@ export default function TenantCatalogPage({
 
   return (
     <div className="min-h-screen bg-slate-950 pb-28">
+      {/* Visual Stepper */}
+      <BookingStepper currentStep={1} tenantSlug={params.tenantSlug} />
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 pt-12 pb-16 border-b border-slate-800">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-900/20 via-slate-950/0 to-slate-950"></div>

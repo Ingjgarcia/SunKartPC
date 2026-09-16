@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { demoStore } from "@/lib/demo-store";
+import { sendDigitalPassEmail } from "@/lib/email";
+import { formatCurrency } from "@/lib/formatters";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   try {
@@ -52,8 +54,30 @@ export async function POST(req: Request, { params }: { params: { id: string } })
             paymentStatus: "PAID",
             paymentMethod: method,
           },
-          include: { pass: true, customer: true, items: true, participants: true },
+          include: { pass: true, customer: true, items: { include: { experience: true } }, participants: true },
         });
+
+        // Trigger email sending asynchronously in background
+        if (updated.customer?.email && updated.pass?.securityToken) {
+          sendDigitalPassEmail({
+            to: updated.customer.email,
+            orderNumber: updated.orderNumber,
+            customerName: `${updated.customer.firstName} ${updated.customer.lastName || ""}`.trim(),
+            experienceTitle: (updated.items?.[0] as any)?.experience?.title || "Experiencia SunKart Park",
+            participantsCount: updated.participants?.length || 1,
+            participants: updated.participants?.map((p: any) => p.fullName) || [],
+            bookingDate: (updated as any).bookingDate
+              ? new Date((updated as any).bookingDate).toISOString().split("T")[0]
+              : updated.createdAt
+              ? new Date(updated.createdAt).toISOString().split("T")[0]
+              : new Date().toISOString().split("T")[0],
+            totalFormatted: formatCurrency(Number(updated.total), updated.currency || "USD"),
+            paymentStatus: "PAID",
+            passToken: updated.pass.securityToken,
+            passCode: updated.pass.passCode,
+            tenantSlug: "sunkart-pc",
+          }).catch((err) => console.warn("Email send err on pay:", err));
+        }
 
         return NextResponse.json({ success: true, data: updated });
       }
